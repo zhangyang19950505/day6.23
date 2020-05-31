@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    // recyclerview 依赖
+    api 'com.android.support:recyclerview-v7:29.1.1'
+// 图片框架依赖
+    api 'com.github.bumptech.glide:glide:4.9.0'
+
+    //上拉加载 下拉刷新
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+// TabLayout依赖  顶部标题栏
+    api 'com.android.support:design:29.0.6'
+
+//Retrofit依赖   // 可选依赖，解析json字符所用
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    //RxJava
+    api "io.reactivex.rxjava2:rxjava:2.1.3" // 必要rxjava2依赖
+    api "io.reactivex.rxjava2:rxandroid:2.0.1" // 必要rxandrroid依赖，切线程时需要用到
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0' // 必要依赖，Rxjava和Retrofit结合必须用到，下面会提到
+//  ButterKnife   sdk 29 后
+    api 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+//搜索框依赖  里面带返回图片
+    api 'com.miguelcatalan:materialsearchview:1.4.0'
+
+
+
+
+
+
+
+}
