@@ -16,7 +16,7 @@ public class ServerAddressConfig {
             BASE_URL="";
         }
         if (API_TYPE==3){
-            BASE_URL="http://static.owspace.com/";
+            BASE_URL="https://a.zhulong.com/";
         }
 
     }

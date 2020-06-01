@@ -3,6 +3,7 @@
     package="com.jiyun.zhulong">
 
     <application
+        android:name=".base.Application1907"
         android:allowBackup="true"
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
@@ -11,16 +12,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.MainActivity">
-            <!-- 广告页面 -->
+            <!-- 引导页面 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity"/>
-        <activity android:name=".activity.WebActivity"/>
-        <activity android:name="com.jiyun.fuli.activity.FuliActivity"/>
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name="com.jiyun.fuli.activity.FuliActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

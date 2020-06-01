@@ -2,6 +2,9 @@
 
 buildscript {
     
+    ext {
+        kotlin_version = '1.3.71'
+    }
     repositories {
         google()
         jcenter()
@@ -9,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
-        
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -26,4 +29,53 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersion = 29
+    buildToolsVersion = '29.0.2'
+    targetSdkVersion = compileSdkVersion
+    androidXVsersion = '1.0.2'
+    androidXConstraint = '1.1.3'
+    androidXRecyclerView = '1.1.0'
+    supportVsersion = '29.0.0'
+    minSdkVersion = 16
+    jsoupVersion = '1.10.2'
+    xstreamVersion = '1.2.2'
+    xxpermmitionVersion = '5.2'
+    naviVersion = '1.0.0-alpha01'
+    naviVersionKtl = '1.0.0'
+    rootVersionCode = 214
+    rootVersionName = '2.1.4'
+    picasso = '2.5.2'
+    rxbinding = '2.0.0'
+    minify = false
+    leakCanary = '1.5.4'
+
+    gson = '2.8.5'
+    glide = '4.9.0'
+    design = '29.0.6'//侧滑和TabLayout
+    recyclerviewV7 = '29.1.1'//V7包下的
+    recyclerviewAnX = '1.2.0-alpha03'//安卓X下的
+    banner = '1.4.10'
+    smartRefresh = '1.1.0-andx-14'
+    cardview = '29.0.1'
+    okhttp3 = '3.11.0'
+    ok3log = okhttp3
+    retrofit2 = '2.4.0'
+    rxjava2 = '2.0.1'
+    eventBus = '3.1.1'
+    butterknife = '10.2.0'
+    jiecao = '5.5'//节操视屏
+    darview = '1.4.0'//日历
+    searchview = '1.4.0'//搜索框
+    flowlayout = '1.1.2'//流式布局
+    stickyheader = '1.0.1'//悬浮头部
+    permissions = '2.1.3'
+    //图片虚化依赖
+    transformations = '3.3.0'
+    gpuimage = '1.4.1'
+
+    tablayout = '2.0.8@aar'
+    abiFilters = ['armeabi-v7a']//'arm64-v8a', 'armeabi', 'x86', 'arm64-v8a'
 }

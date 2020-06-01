@@ -1,6 +1,7 @@
 package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +19,7 @@ import com.jiyun.bean.LeadBean;
 import com.jiyun.frame.ApiConfig;
 import com.jiyun.frame.ICommonModel;
 import com.jiyun.frame.LoadTypeConfig;
+import com.jiyun.frame.utils.ParamHashMap;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpActiviy;
 import com.jiyun.zhulong.model.TestModel;
@@ -31,6 +34,8 @@ public class MainActivity extends BaseMvpActiviy {
     ImageView mHomeTopImg;
     @BindView(R.id.img_home_bottom)
     ImageView mHomeBottomImg;
+    @BindView(R.id.rl_main)
+    RelativeLayout rl;
     private int time = 7;
     private boolean isClick;
     private boolean isDestroy;
@@ -43,7 +48,6 @@ public class MainActivity extends BaseMvpActiviy {
 
         @Override
         public boolean handleMessage(@NonNull Message message) {
-
 
             int what = message.what;
             if (what == 0) {
@@ -68,21 +72,58 @@ public class MainActivity extends BaseMvpActiviy {
         }
     });
 
-    //在本页面销毁时给isDestroy设为true，用来在销毁时将加载资源的功能停止掉
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        isDestroy = true;
+    protected int setLayout() {
+        return R.layout.activity_home_main;
     }
 
-    //获取屏幕的宽和高
-    private void getScreenWH() {
-        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display defaultDisplay = manager.getDefaultDisplay();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        defaultDisplay.getMetrics(displayMetrics);
-        heightPixels = displayMetrics.heightPixels;
-        widthPixels = displayMetrics.widthPixels;
+    @Override
+    protected ICommonModel setModel() {
+        return new TestModel();
+    }
+
+    @Override
+    protected void initView() {
+        //设置状态栏为深灰色
+        getWindow().setStatusBarColor(Color.DKGRAY);
+        Glide.with(this).load(R.mipmap.ic_splash).into(mHomeTopImg);
+    }
+
+    @Override
+    protected void initData() {
+        //positions_id=APP_QD_01&is_show=0&w=1080&h=2160&specialty_id=21
+        ParamHashMap map = new ParamHashMap().add("positions_id", "APP_QD_01").add("is_show", 0).add("w", 1080).add("h", 2160).add("specialty_id", 21);
+        //去P层获取广告数据
+        mPresenter.getData(ApiConfig.ONE_TEST_GET, LoadTypeConfig.NORMAL, map);
+
+        //启用一个线程来做倒计时
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 8; i++) {
+                    try {
+                        Thread.sleep(1000);
+                        handler.sendEmptyMessage(0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    //获取数据成功
+    @Override
+    protected void onSuccess(int apiConfig, int loadTypeConfig, Object[] objects) {
+        switch (apiConfig) {
+            case ApiConfig.ONE_TEST_GET:
+                if (loadTypeConfig == LoadTypeConfig.NORMAL) {
+                    LeadBean bean = (LeadBean) objects[0];
+                    info_url = bean.getResult().getInfo_url();
+                    jump_url = bean.getResult().getJump_url();
+                }
+                break;
+        }
     }
 
     @Override
@@ -117,53 +158,20 @@ public class MainActivity extends BaseMvpActiviy {
         });
     }
 
-    @Override
-    protected int setLayout() {
-        return R.layout.activity_home_main;
+    //获取屏幕的宽和高
+    private void getScreenWH() {
+        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Display defaultDisplay = manager.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        defaultDisplay.getMetrics(displayMetrics);
+        heightPixels = displayMetrics.heightPixels;
+        widthPixels = displayMetrics.widthPixels;
     }
 
+    //在本页面销毁时给isDestroy设为true，用来在销毁时将加载资源的功能停止掉
     @Override
-    protected ICommonModel setModel() {
-        return new TestModel();
-    }
-
-    @Override
-    protected void initView() {
-        Glide.with(this).load(R.mipmap.ic_splash).into(mHomeTopImg);
-    }
-
-    @Override
-    protected void initData() {
-        //获取广告数据
-        mPresenter.getData(ApiConfig.ONE_TEST_GET, LoadTypeConfig.NORMAL);
-
-        //启用一个线程来做倒计时
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 8; i++) {
-                    try {
-                        Thread.sleep(1000);
-                        handler.sendEmptyMessage(0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
-
-    //获取数据成功
-    @Override
-    protected void onSuccess(int apiConfig, int loadTypeConfig, Object[] objects) {
-        switch (apiConfig) {
-            case ApiConfig.ONE_TEST_GET:
-                if (loadTypeConfig == LoadTypeConfig.NORMAL) {
-                    LeadBean bean = (LeadBean) objects[0];
-                    info_url = bean.getResult().getInfo_url();
-                    jump_url = bean.getResult().getJump_url();
-                }
-                break;
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        isDestroy = true;
     }
 }

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -40,11 +42,16 @@ dependencies {
 // 图片框架依赖
     api 'com.github.bumptech.glide:glide:4.9.0'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     //上拉加载 下拉刷新
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
-    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-14'
 // TabLayout依赖  顶部标题栏
     api 'com.android.support:design:29.0.6'
+
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
+    api "com.squareup.okhttp3:logging-interceptor:$ok3log"
 
 //Retrofit依赖   // 可选依赖，解析json字符所用
     api 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -59,11 +66,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 //搜索框依赖  里面带返回图片
     api 'com.miguelcatalan:materialsearchview:1.4.0'
-
-
-
-
-
-
-
+    api project(path: ':utils')
 }

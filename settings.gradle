@@ -1,3 +1,4 @@
 rootProject.name='ZhuLong'
-include ':app'
+include ':app', ':utils'
 include ':frame'
+include ':mylibrary'

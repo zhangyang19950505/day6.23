@@ -47,7 +47,7 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
     }
 
     @Override
-    public void netSuccess(int apiConfig, int loadTypeConfig, Object[] object) {
+    public void netSuccess(int apiConfig, int loadTypeConfig, Object... object) {
         onSuccess(apiConfig, loadTypeConfig, object);
     }
 
