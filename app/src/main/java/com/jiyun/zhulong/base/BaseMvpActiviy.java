@@ -1,14 +1,25 @@
 package com.jiyun.zhulong.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
 
-import com.jiyun.frame.CommonPresenter;
-import com.jiyun.frame.ICommonModel;
-import com.jiyun.frame.ICommonView;
+import com.jiyun.frame.constants.ConstantKey;
+import com.jiyun.frame.bean.Device;
+import com.jiyun.frame.mvp.CommonPresenter;
+import com.jiyun.frame.context.FrameApplication;
+import com.jiyun.frame.mvp.ICommonModel;
+import com.jiyun.frame.mvp.ICommonView;
+import com.jiyun.frame.utils.SystemUtils;
+import com.jiyun.zhulong.activity.HomeActivity;
+import com.jiyun.zhulong.activity.LoginActivity;
+import com.jiyun.zhulong.activity.MyHomeActivity;
+import com.jiyun.zhulong.activity.SpecialtyActivity;
+import com.yiyatech.utils.NetworkUtils;
+import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import butterknife.ButterKnife;
 
@@ -25,6 +36,7 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
         if (mModel != null)
             mPresenter = new CommonPresenter(this, mModel);
         initView();
+        initDevice();
         initData();
         initListener();
     }
@@ -46,6 +58,33 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
 
     }
 
+    public void initDevice() {
+        Device device = new Device();
+        device.setScreenWidth(SystemUtils.getSize(this).x);
+        device.setScreenHeight(SystemUtils.getSize(this).y);
+        device.setDeviceName(SystemUtils.getDeviceName());
+        device.setSystem(SystemUtils.getSystem(this));
+        device.setVersion(SystemUtils.getVersion(this));
+        device.setDeviceId(SystemUtils.getDeviceId(this));
+        device.setLocalIp(NetworkUtils.getLocalIpAddress());
+        FrameApplication.getFrameApplication().setDeviceInfo(device);
+    }
+
+    //跳转页面
+    public void goToActivity() {
+        showLog("登录过了：----用户信息:" + (SharedPrefrenceUtils.getObject(this, ConstantKey.LOGIN_INFO)).toString());
+        if (mApplication.isLogin()) {
+            if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
+                startActivity(new Intent(this, MyHomeActivity.class));
+            } else {
+                startActivity(new Intent(this, SpecialtyActivity.class));
+            }
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        finish();
+    }
+
     @Override
     public void netSuccess(int apiConfig, int loadTypeConfig, Object... object) {
         onSuccess(apiConfig, loadTypeConfig, object);
@@ -60,6 +99,7 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.clear();
+        if (mPresenter != null)
+            mPresenter.clear();
     }
 }

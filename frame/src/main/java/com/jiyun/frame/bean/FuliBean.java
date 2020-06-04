@@ -1,4 +1,4 @@
-package com.jiyun.bean;
+package com.jiyun.frame.bean;
 
 import java.util.List;
 
@@ -54,14 +54,14 @@ public class FuliBean {
          * thumbnail : https://img.owspace.com/Public/uploads/Picture/2020-02-01/5e353606af2eb.jpeg
          * title : 单读·启示录
          * description : 如实写下了你们的所见所闻，这会是一份真挚而沉重的纪录，我们会留存它。
-
-         投稿邮箱：anonymous@owspace.com
+         * <p>
+         * 投稿邮箱：anonymous@owspace.com
          * model : 11
          * uid : 907331
          * name :
          * excerpt : 就像纳粹党从舆论反犹到“水晶之夜”，从言论的暴力到行动的暴力，只有一步之遥。
          * lead : 公开信（ Republic of letters ）是单读的开放栏目。我们欢迎来自不同背景、住在不同国家的作者，在这里向彼此写信，分享他们最近的生活、关心的议题、以及世界上重要的事。
-         今天这封信，是单读编辑沈律君写给另一位单读编辑张頔的回信，围绕“冠姓权”与言论自由，沈律君给出了他的观察与思考。两位编辑的观点多有不同，甚至对立，但他们同时期望让表达继续，而不只是表态。
+         * 今天这封信，是单读编辑沈律君写给另一位单读编辑张頔的回信，围绕“冠姓权”与言论自由，沈律君给出了他的观察与思考。两位编辑的观点多有不同，甚至对立，但他们同时期望让表达继续，而不只是表态。
          * position : 0
          * create_time : 1590625800
          * update_time : 2020/05/28
@@ -428,56 +428,5 @@ public class FuliBean {
                         '}';
             }
         }
-
-        @Override
-        public String toString() {
-            return "DatasBean{" +
-                    "id='" + id + '\'' +
-                    ", thumbnail='" + thumbnail + '\'' +
-                    ", title='" + title + '\'' +
-                    ", description='" + description + '\'' +
-                    ", model=" + model +
-                    ", uid='" + uid + '\'' +
-                    ", name='" + name + '\'' +
-                    ", excerpt='" + excerpt + '\'' +
-                    ", lead='" + lead + '\'' +
-                    ", position='" + position + '\'' +
-                    ", create_time='" + create_time + '\'' +
-                    ", update_time='" + update_time + '\'' +
-                    ", status='" + status + '\'' +
-                    ", video='" + video + '\'' +
-                    ", fm='" + fm + '\'' +
-                    ", link_url='" + link_url + '\'' +
-                    ", publish_time='" + publish_time + '\'' +
-                    ", view='" + view + '\'' +
-                    ", share='" + share + '\'' +
-                    ", comment='" + comment + '\'' +
-                    ", good='" + good + '\'' +
-                    ", bookmark='" + bookmark + '\'' +
-                    ", show_uid='" + show_uid + '\'' +
-                    ", fm_play='" + fm_play + '\'' +
-                    ", lunar_type='" + lunar_type + '\'' +
-                    ", html5='" + html5 + '\'' +
-                    ", author='" + author + '\'' +
-                    ", tpl=" + tpl +
-                    ", avatar='" + avatar + '\'' +
-                    ", category='" + category + '\'' +
-                    ", parseXML=" + parseXML +
-                    ", nickname='" + nickname + '\'' +
-                    ", total_url='" + total_url + '\'' +
-                    ", tags=" + tags +
-                    ", hot_comments=" + hot_comments +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "FuliBean{" +
-                "status='" + status + '\'' +
-                ", msg='" + msg + '\'' +
-                ", code=" + code +
-                ", datas=" + datas +
-                '}';
     }
 }

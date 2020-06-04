@@ -11,17 +11,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jiyun.frame.LoadTypeConfig;
+import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.zhulong.interfaces.DataListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 public class BaseActivity extends AppCompatActivity {
+    public Application1907 mApplication;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = (Application1907) getApplication();
     }
 
 

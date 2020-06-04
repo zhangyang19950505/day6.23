@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">筑龙学社</string>
+    <string name="delete">取消</string>
+    <string name="specialty">请选择感兴趣的专业</string>
+    <string name="seek">搜索</string>
+    <string name="account_login">账号登录</string>
+    <string name="security_login">验证码登录</string>
+    <string name="login">登录</string>
 </resources>

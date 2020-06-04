@@ -2,35 +2,63 @@ package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.jiyun.frame.constants.ConstantKey;
+import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
+import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
-public class WebActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private WebView mWeb;
+public class WebActivity extends BaseMvpActiviy {
+
+    @BindView(R.id.web)
+    WebView web;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
+        ButterKnife.bind(this);
         initView();
     }
 
-    private void initView() {
-        mWeb = (WebView) findViewById(R.id.web);
+    @Override
+    protected int setLayout() {
+        return R.layout.activity_web;
+    }
+
+    @Override
+    protected ICommonModel setModel() {
+        return null;
+    }
+
+    @Override
+    protected void initView() {
+        web = (WebView) findViewById(R.id.web);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        mWeb.loadUrl(url);
-        mWeb.setWebViewClient(new WebViewClient());
+        web.loadUrl(url);
+        web.setWebViewClient(new WebViewClient());
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void onSuccess(int apiConfig, int loadTypeConfig, Object[] objects) {
+
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
+        goToActivity();
     }
 }

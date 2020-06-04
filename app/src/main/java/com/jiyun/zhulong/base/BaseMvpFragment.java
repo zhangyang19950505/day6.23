@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.jiyun.frame.CommonPresenter;
-import com.jiyun.frame.ICommonModel;
-import com.jiyun.frame.ICommonView;
+import com.jiyun.frame.mvp.CommonPresenter;
+import com.jiyun.frame.mvp.ICommonModel;
+import com.jiyun.frame.mvp.ICommonView;
 
 import butterknife.ButterKnife;
 

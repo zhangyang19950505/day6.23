@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jiyun.frame.LoadTypeConfig;
+import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.zhulong.interfaces.DataListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;

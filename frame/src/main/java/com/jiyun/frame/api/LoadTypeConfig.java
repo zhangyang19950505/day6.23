@@ -1,4 +1,4 @@
-package com.jiyun.frame;
+package com.jiyun.frame.api;
 
 
 public class LoadTypeConfig {

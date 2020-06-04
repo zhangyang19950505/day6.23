@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.jiyun.frame.ICommonModel;
+import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.frame.constants.ConstantKey;
+import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.TabLayoutUtil;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpActiviy;
@@ -23,8 +25,8 @@ import com.jiyun.zhulong.fragment.HomeFragment;
 import com.jiyun.zhulong.fragment.MineFragment;
 import com.jiyun.zhulong.fragment.TabDataFragment;
 import com.jiyun.zhulong.fragment.VipFragment;
-
-import java.util.ArrayList;
+import com.jiyun.zhulong.mypackage.MayTabSelectedListener;
+import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import butterknife.BindView;
 
@@ -45,8 +47,9 @@ public class HomeActivity extends BaseMvpActiviy {
     @BindView(R.id.tab)
     TabLayout tab;
     private FragmentManager manager;
-    private ArrayList<Fragment> fragments;
+    private Fragment[] fragments;
     private long exitTime = 0;
+    private SpecialtyBean.ResultBean.DataBean dataBean;
 
     @Override
     protected int setLayout() {
@@ -60,25 +63,15 @@ public class HomeActivity extends BaseMvpActiviy {
 
     @Override
     protected void initView() {
-        ArrayList<String> tabTitles = new ArrayList<>();
-        tabTitles.add("主页");
-        tabTitles.add("课程");
-        tabTitles.add("VIP");
-        tabTitles.add("资料");
-        tabTitles.add("我的");
-        fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
-        fragments.add(new CourseFragment());
-        fragments.add(new VipFragment());
-        fragments.add(new TabDataFragment());
-        fragments.add(new MineFragment());
-        ArrayList<Integer> icons = new ArrayList<>();
-        icons.add(R.drawable.home_selector);
-        icons.add(R.drawable.course_selector);
-        icons.add(R.drawable.vip_selector);
-        icons.add(R.drawable.data_selector);
-        icons.add(R.drawable.mine_selector);
+        //获取手机存储的专业设置给textview
+        if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE)!=null){
+            dataBean = SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE);
+            tvCareer.setText(dataBean.getSpecialty_name());
+        }
         manager = getSupportFragmentManager();
+        fragments = new Fragment[]{new HomeFragment(), new CourseFragment(), new VipFragment(), new TabDataFragment(), new MineFragment()};
+        String[] tabTitles = new String[]{"主页", "课程", "VIP", "资料", "我的"};
+        int[] icons = new int[]{R.drawable.home_selector, R.drawable.course_selector, R.drawable.vip_selector, R.drawable.data_selector, R.drawable.mine_selector};
         TabLayoutUtil.getInstance().TabAddFrameLayout(R.id.fl, manager, tab, tabTitles, fragments, icons);
     }
 
@@ -95,30 +88,55 @@ public class HomeActivity extends BaseMvpActiviy {
     @Override
     public void initListener() {
         super.initListener();
+        //tab点击
         tabListener();
+        //头部点击
+        headerListener();
+    }
+
+    private void headerListener() {
+        //点击了专业
+        llCareer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, SpecialtyActivity.class);
+                startActivity(intent);
+            }
+        });
+        //点击了搜索
+        rlSeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        //点击了信息
+        imgHomeMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        //点击了扫描二维码
+        imgQrcodeScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void tabListener() {
         TabLayoutUtil.getInstance().TabListener(tab, manager, fragments);
-        //由于业务需求需要又隐藏显示所以需要再次监听
-        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //由于业务需求需要有隐藏显示所以需要再次监听
+        tab.addOnTabSelectedListener(new MayTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == fragments.size() - 1) {
+            public void onMayTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == fragments.length - 1) {
                     headerLl.setVisibility(View.GONE);
                 } else {
                     headerLl.setVisibility(View.VISIBLE);
                 }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }

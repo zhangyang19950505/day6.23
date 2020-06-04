@@ -53,6 +53,8 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api "com.squareup.okhttp3:logging-interceptor:$ok3log"
 
+    api "com.github.bumptech.glide:glide:$glide"
+
 //Retrofit依赖   // 可选依赖，解析json字符所用
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'

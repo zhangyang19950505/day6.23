@@ -3,10 +3,10 @@ package com.jiyun.fuli.activity;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jiyun.bean.FuliBean;
-import com.jiyun.frame.ApiConfig;
-import com.jiyun.frame.ICommonModel;
-import com.jiyun.frame.LoadTypeConfig;
+import com.jiyun.frame.bean.FuliBean;
+import com.jiyun.frame.api.ApiConfig;
+import com.jiyun.frame.mvp.ICommonModel;
+import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.frame.utils.ParamHashMap;
 import com.jiyun.fuli.adapter.FuliRvAdapter;
 import com.jiyun.zhulong.R;
@@ -56,12 +56,12 @@ public class FuliActivity extends BaseMvpActiviy {
             public void dataType(int loadTypeConfig) {
                 if (loadTypeConfig == LoadTypeConfig.LOADMORE) {
                     pageId++;
-                    mPresenter.getData(ApiConfig.ONE_TEST_GET, LoadTypeConfig.LOADMORE, pageId, map);
+                    mPresenter.getData(ApiConfig.LEAD_URL, LoadTypeConfig.LOADMORE, pageId, map);
                 }
                 if (loadTypeConfig == LoadTypeConfig.REFRESH) {
                     pageId=0;
                     adapter.getDatas().clear();
-                    mPresenter.getData(ApiConfig.ONE_TEST_GET, LoadTypeConfig.REFRESH, pageId, map);
+                    mPresenter.getData(ApiConfig.LEAD_URL, LoadTypeConfig.REFRESH, pageId, map);
                 }
             }
         });
@@ -69,13 +69,13 @@ public class FuliActivity extends BaseMvpActiviy {
 
     @Override
     protected void initData() {
-        mPresenter.getData(ApiConfig.ONE_TEST_GET, LoadTypeConfig.NORMAL, pageId, map);
+        mPresenter.getData(ApiConfig.LEAD_URL, LoadTypeConfig.NORMAL, pageId, map);
     }
 
     @Override
     protected void onSuccess(int apiConfig, int loadType, Object[] objects) {
         switch (apiConfig) {
-            case ApiConfig.ONE_TEST_GET:
+            case ApiConfig.LEAD_URL:
                 if (loadType == LoadTypeConfig.LOADMORE) {
                     mRefreshLayout.finishLoadMore();
                 } else if (loadType == LoadTypeConfig.REFRESH) {

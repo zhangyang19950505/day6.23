@@ -1,4 +1,4 @@
-package com.jiyun.frame;
+package com.jiyun.frame.api;
 
 
 //域名 在测试或正式上线后的修改类
@@ -16,7 +16,7 @@ public class ServerAddressConfig {
             BASE_URL="";
         }
         if (API_TYPE==3){
-            BASE_URL="https://a.zhulong.com/";
+            BASE_URL="http://static.owspace.com/";
         }
 
     }

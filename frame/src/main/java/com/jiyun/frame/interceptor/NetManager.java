@@ -1,8 +1,10 @@
-package com.jiyun.frame;
+package com.jiyun.frame.interceptor;
 
 
-import com.jiyun.frame.interceptor.CommonHeadersInterceptor;
-import com.jiyun.frame.interceptor.CommonParamsInterceptor;
+import com.jiyun.frame.mvp.BaseObesrver;
+import com.jiyun.frame.api.ServerAddressConfig;
+import com.jiyun.frame.api.ApiService;
+import com.jiyun.frame.mvp.ICommonPresenter;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +36,7 @@ public class NetManager {
     }
 
     public <T> ApiService getService(T...ts){
-        String baseUrl=ServerAddressConfig.BASE_URL;
+        String baseUrl= ServerAddressConfig.BASE_URL;
         if (ts!=null&&ts.length!=0){
             baseUrl= (String) ts[0];
         }
@@ -48,13 +50,14 @@ public class NetManager {
     }
 
     private OkHttpClient initClient() {
-        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
-        builder.addInterceptor(new CommonHeadersInterceptor());
-        builder.addInterceptor(new CommonParamsInterceptor());
-        builder.addInterceptor(initLogInterceptor());
-        builder.connectTimeout(15, TimeUnit.SECONDS);
-        builder.readTimeout(15,TimeUnit.SECONDS);
-        return builder.build();
+        OkHttpClient build = new OkHttpClient().newBuilder()
+                .addInterceptor(new CommonHeadersInterceptor())
+                .addInterceptor(new CommonParamsInterceptor())
+                .addInterceptor(initLogInterceptor())
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build();
+        return build;
     }
 
     private Interceptor initLogInterceptor() {

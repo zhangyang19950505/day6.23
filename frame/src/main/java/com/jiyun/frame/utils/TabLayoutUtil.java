@@ -1,5 +1,7 @@
 package com.jiyun.frame.utils;
 
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,65 +18,66 @@ import java.util.ArrayList;
  */
 public class TabLayoutUtil {
 
-    public TabLayoutUtil(){}
+    public TabLayoutUtil() {
+    }
 
     public static volatile TabLayoutUtil tabLayoutUtil;
 
-    public static TabLayoutUtil getInstance(){
-        if (tabLayoutUtil==null){
-            synchronized (TabLayoutUtil.class){
-                tabLayoutUtil=new TabLayoutUtil();
+    public static TabLayoutUtil getInstance() {
+        if (tabLayoutUtil == null) {
+            synchronized (TabLayoutUtil.class) {
+                tabLayoutUtil = new TabLayoutUtil();
             }
         }
         return tabLayoutUtil;
     }
 
     //tablayout结合framelayout的二连动时使用
-    public void TabAddFrameLayout(int containerID, FragmentManager manager, TabLayout tab, ArrayList<String> tabTitles, ArrayList<Fragment>fragments, ArrayList<Integer> iconID){
+    public void TabAddFrameLayout(int containerID, FragmentManager manager, TabLayout tab, String[] tabTitles, Fragment[] fragments, int[] iconID) {
         FragmentTransaction begin = manager.beginTransaction();
-        if (iconID ==null&& iconID.size()==0) {
-            for (int i = 0; i < tabTitles.size(); i++) {
-                tab.addTab(tab.newTab().setText(tabTitles.get(i)));
-                begin.add(containerID,fragments.get(i)).hide(fragments.get(i));
+        if (iconID == null && iconID.length == 0) {
+            for (int i = 0; i < tabTitles.length; i++) {
+                tab.addTab(tab.newTab().setText(tabTitles[i]));
+                begin.add(containerID, fragments[i]).hide(fragments[i]);
             }
-            begin.show(fragments.get(0));
-        }else {
-            for (int i = 0; i < tabTitles.size(); i++) {
-                tab.addTab(tab.newTab().setText(tabTitles.get(i)).setIcon(iconID.get(i)));
-                begin.add(containerID,fragments.get(i)).hide(fragments.get(i));
+            begin.show(fragments[0]);
+        } else {
+            for (int i = 0; i < tabTitles.length; i++) {
+                tab.addTab(tab.newTab().setText(tabTitles[i]).setIcon(iconID[i]));
+                begin.add(containerID, fragments[i]).hide(fragments[i]);
             }
-            begin.show(fragments.get(0));
+            begin.show(fragments[0]);
         }
         begin.commit();
     }
 
     //tablayout结合viewpager实现三联动时使用
-    public void TabAddViewPager(TabLayout tab, ViewPager vp,ArrayList<String>tabTitles,ArrayList<Fragment>fragments,ArrayList<Integer>IconID){
+    public void TabAddViewPager(TabLayout tab, ViewPager vp, String[] tabTitles, Fragment[] fragments, int[] IconID) {
         tab.setupWithViewPager(vp);
-        if (IconID==null&&IconID.size()==0){
-            for (int i = 0; i < fragments.size(); i++) {
-                tab.getTabAt(i).setText(tabTitles.get(i));
+        if (IconID == null && IconID.length == 0) {
+            for (int i = 0; i < fragments.length; i++) {
+                tab.getTabAt(i).setText(tabTitles[i]);
             }
-        }else {
-            for (int i = 0; i < fragments.size(); i++) {
-                tab.getTabAt(i).setText(tabTitles.get(i)).setIcon(IconID.get(i));
+        } else {
+            for (int i = 0; i < fragments.length; i++) {
+                tab.getTabAt(i).setText(tabTitles[i]).setIcon(IconID[i]);
             }
         }
     }
 
 
     //点击显示隐藏
-    public void TabListener(TabLayout tab,FragmentManager manager,ArrayList<Fragment> fragments){
+    public void TabListener(TabLayout tab, FragmentManager manager, Fragment[] fragments) {
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 FragmentTransaction begin = manager.beginTransaction();
-                for (int i = 0; i < fragments.size(); i++) {
-                    begin.hide(fragments.get(i));
+                for (int i = 0; i < fragments.length; i++) {
+                    begin.hide(fragments[i]);
                 }
-                for (int i = 0; i < fragments.size(); i++) {
-                    if (tab.getPosition()==i){
-                        begin.show(fragments.get(i));
+                for (int i = 0; i < fragments.length; i++) {
+                    if (tab.getPosition() == i) {
+                        begin.show(fragments[i]);
                     }
                 }
                 begin.commit();
@@ -89,6 +92,7 @@ public class TabLayoutUtil {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
         });
     }
 }

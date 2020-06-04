@@ -1,7 +1,7 @@
 package com.jiyun.zhulong.fragment;
 
 
-import com.jiyun.frame.ICommonModel;
+import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpFragment;
 

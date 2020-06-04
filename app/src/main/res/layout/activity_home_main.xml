@@ -14,12 +14,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="45dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginTop="@dimen/dp_45"
+        android:layout_marginRight="@dimen/dp_30"
         android:background="@drawable/bg_ad_skip"
         android:text="跳过3"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="@dimen/sp_16"
         android:visibility="gone" />
 
     <ImageView
@@ -31,10 +31,10 @@
     <ImageView
         android:id="@+id/img_home_bottom"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/dp_100"
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_splash_di"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

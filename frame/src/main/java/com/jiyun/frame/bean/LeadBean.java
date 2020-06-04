@@ -1,6 +1,8 @@
-package com.jiyun.bean;
+package com.jiyun.frame.bean;
 
-public class LeadBean {
+import java.io.Serializable;
+
+public class LeadBean implements Serializable {
 
     /**
      * errNo : 0
@@ -22,11 +24,9 @@ public class LeadBean {
         return result;
     }
 
-    public void setResult(ResultBean result) {
-        this.result = result;
-    }
 
-    public static class ResultBean {
+
+    public static class ResultBean implements Serializable {
         /**
          * ad_id : 12572
          * end_time : 1590854400
@@ -150,5 +150,31 @@ public class LeadBean {
         public void setWidth(String width) {
             this.width = width;
         }
+
+        @Override
+        public String toString() {
+            return "ResultBean{" +
+                    "ad_id='" + ad_id + '\'' +
+                    ", end_time='" + end_time + '\'' +
+                    ", height='" + height + '\'' +
+                    ", info_url='" + info_url + '\'' +
+                    ", jump_url='" + jump_url + '\'' +
+                    ", place_name='" + place_name + '\'' +
+                    ", prof='" + prof + '\'' +
+                    ", start_time='" + start_time + '\'' +
+                    ", title='" + title + '\'' +
+                    ", type='" + type + '\'' +
+                    ", wb='" + wb + '\'' +
+                    ", width='" + width + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "LeadBean{" +
+                "errNo=" + errNo +
+                ", result=" + result +
+                '}';
     }
 }
