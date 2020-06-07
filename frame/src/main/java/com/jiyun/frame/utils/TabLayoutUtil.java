@@ -51,21 +51,6 @@ public class TabLayoutUtil {
         begin.commit();
     }
 
-    //tablayout结合viewpager实现三联动时使用
-    public void TabAddViewPager(TabLayout tab, ViewPager vp, String[] tabTitles, Fragment[] fragments, int[] IconID) {
-        tab.setupWithViewPager(vp);
-        if (IconID == null && IconID.length == 0) {
-            for (int i = 0; i < fragments.length; i++) {
-                tab.getTabAt(i).setText(tabTitles[i]);
-            }
-        } else {
-            for (int i = 0; i < fragments.length; i++) {
-                tab.getTabAt(i).setText(tabTitles[i]).setIcon(IconID[i]);
-            }
-        }
-    }
-
-
     //点击显示隐藏
     public void TabListener(TabLayout tab, FragmentManager manager, Fragment[] fragments) {
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

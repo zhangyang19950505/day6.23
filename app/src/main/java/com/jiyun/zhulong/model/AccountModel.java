@@ -19,14 +19,14 @@ public class AccountModel implements ICommonModel {
     public void getData(ICommonPresenter iCommonPresenter, int apiConfig, int loadTypeConfig, Object[] object) {
         switch (apiConfig){
             case ApiConfig.SEND_VERIFY:
-                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_openapi_user)).getLoginVerify((String) object[0]), iCommonPresenter,apiConfig,loadTypeConfig,object);
+                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_openapi_user)).getLoginVerify((String) object[0]), iCommonPresenter,apiConfig,loadTypeConfig);
                 break;
             case ApiConfig.VERIFY_LOGIN:
-                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_openapi_user)).loginByVerify(new ParamHashMap().add("mobile",object[0]).add("code",object[1])), iCommonPresenter,apiConfig,loadTypeConfig,object);
+                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_openapi_user)).loginByVerify(new ParamHashMap().add("mobile",object[0]).add("code",object[1])), iCommonPresenter,apiConfig,loadTypeConfig);
                 break;
             case ApiConfig.GET_HEADER_INFO:
                 String uid = FrameApplication.getFrameApplication().getLoginInfo().getUid();
-                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_api)).getHeaderInfo(new ParamHashMap().add("zuid",uid).add("uid",uid)), iCommonPresenter,apiConfig,loadTypeConfig,object);
+                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_api)).getHeaderInfo(new ParamHashMap().add("zuid",uid).add("uid",uid)), iCommonPresenter,apiConfig,loadTypeConfig);
                 break;
         }
     }

@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.jiyun.frame.bean.Device;
+import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.frame.mvp.CommonPresenter;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.mvp.ICommonView;
+import com.jiyun.frame.utils.SystemUtils;
+import com.yiyatech.utils.NetworkUtils;
 
 import butterknife.ButterKnife;
 
@@ -31,7 +35,7 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
         mModel = setModel();
         if (mModel != null)
             mPresenter = new CommonPresenter(this, mModel);
-        initView();
+        initView(view);
         initData();
         initListener();
         return view;
@@ -41,7 +45,7 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
 
     protected abstract M setModel();
 
-    protected abstract void initView();
+    protected abstract void initView(View view);
 
     protected abstract void initData();
 
@@ -54,6 +58,18 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
 
     }
 
+    public void initDevice() {
+        Device device = new Device();
+        device.setScreenWidth(SystemUtils.getSize(getActivity()).x);
+        device.setScreenHeight(SystemUtils.getSize(getActivity()).y);
+        device.setDeviceName(SystemUtils.getDeviceName());
+        device.setSystem(SystemUtils.getSystem(getActivity()));
+        device.setVersion(SystemUtils.getVersion(getActivity()));
+        device.setDeviceId(SystemUtils.getDeviceId(getActivity()));
+        device.setLocalIp(NetworkUtils.getLocalIpAddress());
+        FrameApplication.getFrameApplication().setDeviceInfo(device);
+    }
+
     @Override
     public void netSuccess(int apiConfig, int loadTypeConfig, Object[] object) {
         onSuccess(apiConfig, loadTypeConfig, object);
@@ -61,13 +77,14 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
 
     @Override
     public void netFailed(int apiConfig, Throwable throwable) {
-        showLog("错误：" + apiConfig + "，error content" + throwable != null && !TextUtils.isEmpty(throwable.getMessage()) ? throwable.getMessage() : "不明错误类型");
+        showLog("错误：" + apiConfig + "，******错误信息：" + throwable != null && !TextUtils.isEmpty(throwable.getMessage()) ? throwable.getMessage() : "不明错误类型");
         onFailed(apiConfig, throwable);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.clear();
+        if (mPresenter != null)
+            mPresenter.clear();
     }
 }

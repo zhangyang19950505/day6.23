@@ -1,6 +1,8 @@
 package com.jiyun.zhulong.fragment;
 
 
+import android.view.View;
+
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpFragment;
@@ -22,7 +24,7 @@ public class MineFragment extends BaseMvpFragment {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 

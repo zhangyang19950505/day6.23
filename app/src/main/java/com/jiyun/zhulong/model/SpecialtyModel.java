@@ -23,7 +23,7 @@ public class SpecialtyModel implements ICommonModel {
     public void getData(ICommonPresenter iCommonPresenter, int apiConfig, int loadTypeConfig, Object[] object) {
         switch (apiConfig) {
             case ApiConfig.SPECIALTY_URL:
-                mManager.netWork(mManager.getService(context.getString(R.string.edu_openapi)).getSpecialtyData(), iCommonPresenter, apiConfig, loadTypeConfig, object);
+                mManager.netWork(mManager.getService(context.getString(R.string.edu_openapi)).getSpecialtyData(), iCommonPresenter, apiConfig, loadTypeConfig);
                 break;
         }
     }

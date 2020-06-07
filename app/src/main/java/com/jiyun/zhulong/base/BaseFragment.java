@@ -27,13 +27,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
  */
 public class BaseFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
 
-    public void inStreamListener(SmartRefreshLayout smartRefreshLayout, DataListener dataListener){
+
+    public void setSmartListener(SmartRefreshLayout smartRefreshLayout, DataListener dataListener){
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

@@ -59,6 +59,12 @@ public class SpecialtyRvAdapter extends RecyclerView.Adapter<SpecialtyRvAdapter.
         holder.rv_child_specialty.setAdapter(adapter);
         adapter.initData(data);
         adapter.notifyDataSetChanged();
+        adapter.setOnItemClickListener(new ChildSpecialtyRvAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                OnGroupItemClickListener.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -78,5 +84,14 @@ public class SpecialtyRvAdapter extends RecyclerView.Adapter<SpecialtyRvAdapter.
             tv_group_specialty = itemView.findViewById(R.id.tv_group_specialty);
             rv_child_specialty = itemView.findViewById(R.id.rv_child_specialty);
         }
+    }
+    private OnGroupItemClickListener OnGroupItemClickListener;
+
+    public void setOnItemClickListener(OnGroupItemClickListener onItemClickListener) {
+        this.OnGroupItemClickListener = onItemClickListener;
+    }
+
+    public interface OnGroupItemClickListener{
+        void onItemClick(int position);
     }
 }

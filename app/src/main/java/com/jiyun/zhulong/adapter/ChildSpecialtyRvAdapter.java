@@ -70,7 +70,8 @@ public class ChildSpecialtyRvAdapter extends RecyclerView.Adapter<ChildSpecialty
             public void onClick(View view) {
                 FrameApplication.getFrameApplication().setSelectedInfo(dataBean);
                 specialtyRvAdapter.notifyDataSetChanged();
-                context.startActivity(new Intent(context, MyHomeActivity.class));
+                onItemClickListener.onItemClick(position);
+//                context.startActivity(new Intent(context, MyHomeActivity.class));
             }
         });
     }
