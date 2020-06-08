@@ -2,8 +2,11 @@ package com.jiyun.frame.api;
 
 import java.util.Map;
 
+import com.google.gson.JsonObject;
 import com.jiyun.bean.CourseDrillBean;
 import com.jiyun.bean.DataSquadBean;
+import com.jiyun.bean.HomeBottomDataBean;
+import com.jiyun.bean.HomeTopDataBean;
 import com.jiyun.bean.NewsEliteBean;
 import com.jiyun.bean.VIPBannerBean;
 import com.jiyun.bean.VIPBottomDataBean;
@@ -65,4 +68,11 @@ public interface ApiService {
     //vip recyclerview接口
     @GET("lesson/getVipSmallLessonList")
     Observable<VIPBottomDataBean>getVIPBottomData(@QueryMap Map<String,Object>map);
+
+    //主页 banner
+    @GET("lesson/getCarouselphoto")
+    Observable<JsonObject>getHomeTopData(@QueryMap Map<String,Object>map);
+    //主页 recyclerview
+    @GET("lesson/getIndexCommend")
+    Observable<HomeBottomDataBean>getHomeBottomData(@QueryMap Map<String,Object>map);
 }

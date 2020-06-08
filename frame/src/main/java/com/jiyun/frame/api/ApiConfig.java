@@ -13,4 +13,6 @@ public class ApiConfig {
     public static final int NEWS_ELITE_DATA = 9;
     public static final int VIP_BANNER_DATA_INFO = 10;
     public static final int VIP_BOTTOM_DATA_INFO = 11;
+    public static final int HOME_TOP_DATA_INFO = 12;
+    public static final int HOME_BOTTOM_DATA_INFO = 13;
 }
