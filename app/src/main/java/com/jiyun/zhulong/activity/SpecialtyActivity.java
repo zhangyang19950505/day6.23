@@ -97,12 +97,12 @@ public class SpecialtyActivity extends BaseMvpActiviy {
                 finish();
             }
         });
-        //点击图片跳转首页页面
+        //点击返回图片跳转首页页面
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SpecialtyActivity.this, HomeActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(SpecialtyActivity.this, HomeActivity.class);
+//                startActivity(intent);
                 finish();
             }
         });

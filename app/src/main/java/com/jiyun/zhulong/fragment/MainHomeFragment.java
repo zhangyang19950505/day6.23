@@ -194,6 +194,7 @@ public class MainHomeFragment extends BaseMvpFragment implements NavController.O
                 llHeader.setVisibility(View.GONE);
                 selected = MINE;
                 break;
+
         }
     }
 }

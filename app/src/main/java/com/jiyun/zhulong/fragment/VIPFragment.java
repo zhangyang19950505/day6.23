@@ -1,15 +1,11 @@
 package com.jiyun.zhulong.fragment;
 
 
-import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.jiyun.bean.VIPBannerBean;
 import com.jiyun.bean.VIPBottomDataBean;
 import com.jiyun.frame.api.ApiConfig;
@@ -18,16 +14,13 @@ import com.jiyun.frame.bean.SpecialtyBean;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.ParamHashMap;
-import com.jiyun.vip.adapter.BottomRvAdapter;
-import com.jiyun.vip.adapter.HoriaontalRvAdapter;
+import com.jiyun.vip.adapter.VIPRvAdapter;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpFragment;
 import com.jiyun.zhulong.interfaces.DataListener;
 import com.jiyun.zhulong.model.CourseModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
-import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,21 +33,17 @@ import butterknife.BindView;
  * 作者邮箱：1214476635@qq.com
  */
 public class VIPFragment extends BaseMvpFragment {
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.banner)
-    Banner banner;
-    @BindView(R.id.rv_horiaontal)
-    RecyclerView rvHoriaontal;
-    @BindView(R.id.rv_bottom)
-    RecyclerView rvBottom;
     private SpecialtyBean.ResultBean.DataBean dataBean;
     private int page = 1;
     private ParamHashMap map;
     private String specialty_id;
     private List<String> imgs = new ArrayList<>();
-    private HoriaontalRvAdapter horiaontalRvAdapter;
-    private BottomRvAdapter bottomRvAdapter;
+    private VIPRvAdapter adapter;
 
     @Override
     protected int setLayout() {
@@ -72,16 +61,9 @@ public class VIPFragment extends BaseMvpFragment {
             dataBean = SharedPrefrenceUtils.getObject(getActivity(), ConstantKey.IS_SELECTDE);
             specialty_id = dataBean.getSpecialty_id();
         }
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvHoriaontal.setLayoutManager(manager);
-        horiaontalRvAdapter = new HoriaontalRvAdapter(getActivity());
-        rvHoriaontal.setAdapter(horiaontalRvAdapter);
-
-        initRecyclerView(rvBottom);
-        rvBottom.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        bottomRvAdapter = new BottomRvAdapter(getActivity());
-        rvBottom.setAdapter(bottomRvAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new VIPRvAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -108,20 +90,13 @@ public class VIPFragment extends BaseMvpFragment {
                     VIPBannerBean vipBannerBean = (VIPBannerBean) object[0];
                     VIPBannerBean.ResultBean result = vipBannerBean.getResult();
                     List<VIPBannerBean.ResultBean.LiveBeanX.LiveBean> live = result.getLive().getLive();
-                    horiaontalRvAdapter.initData(live);
+                    adapter.initLive(live);
                     List<VIPBannerBean.ResultBean.LunbotuBean> lunbotu = result.getLunbotu();
                     for (VIPBannerBean.ResultBean.LunbotuBean lunbotuBean : lunbotu) {
                         imgs.add(lunbotuBean.getImg());
                     }
-                    banner.setImages(imgs)
-                            .setDelayTime(5000)
-                            .isAutoPlay(true)
-                            .setImageLoader(new ImageLoader() {
-                                @Override
-                                public void displayImage(Context context, Object path, ImageView imageView) {
-                                    Glide.with(context).load(path).into(imageView);
-                                }
-                            }).start();
+                    adapter.initBanner(imgs);
+
                 }
                 break;
             case ApiConfig.VIP_BOTTOM_DATA_INFO:
@@ -129,14 +104,14 @@ public class VIPFragment extends BaseMvpFragment {
                     if (loadTypeConfig == LoadTypeConfig.LOADMORE) {
                         refreshLayout.finishLoadMore();
                     } else if (loadTypeConfig == LoadTypeConfig.REFRESH) {
-                        if (bottomRvAdapter.getList().size() > 0) {
-                            bottomRvAdapter.getList().clear();
+                        if (adapter.getList().size() > 0) {
+                            adapter.getList().clear();
                         }
                         refreshLayout.finishRefresh();
                     }
                     VIPBottomDataBean vipBottomDataBean = (VIPBottomDataBean) object[0];
                     List<VIPBottomDataBean.ResultBean.ListBean> list = vipBottomDataBean.getResult().getList();
-                    bottomRvAdapter.initData(list);
+                    adapter.initList(list);
                 }
                 break;
         }
@@ -174,7 +149,7 @@ public class VIPFragment extends BaseMvpFragment {
             } else {
                 specialty_id = dataBean.getSpecialty_id();
                 page = 1;
-                bottomRvAdapter.getList().clear();
+                adapter.getList().clear();
                 map = new ParamHashMap().add("specialty_id", specialty_id).add("page", page);
                 mPresenter.getData(ApiConfig.VIP_BOTTOM_DATA_INFO, LoadTypeConfig.NORMAL, map);
             }
