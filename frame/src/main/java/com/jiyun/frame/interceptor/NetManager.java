@@ -35,10 +35,10 @@ public class NetManager {
         return sNetManager;
     }
 
-    public <T> ApiService getService(T...ts){
-        String baseUrl= ServerAddressConfig.BASE_URL;
-        if (ts!=null&&ts.length!=0){
-            baseUrl= (String) ts[0];
+    public <T> ApiService getService(T... ts) {
+        String baseUrl = ServerAddressConfig.BASE_URL;
+        if (ts != null && ts.length != 0) {
+            baseUrl = (String) ts[0];
         }
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -66,7 +66,7 @@ public class NetManager {
         return log;
     }
 
-    public <T,O> void netWork(Observable<T> localTestInfo, ICommonPresenter iCommonPresenter, int apiConfig, int loadTypeConfig, O...os){
+    public <T, O> void netWork(Observable<T> localTestInfo, ICommonPresenter iCommonPresenter, int apiConfig, int loadTypeConfig, O... o) {
         localTestInfo.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObesrver() {
@@ -79,22 +79,22 @@ public class NetManager {
 
                     @Override
                     public void onSuccess(Object values) {
-                        iCommonPresenter.netSuccess(apiConfig,loadTypeConfig,values,os);
+                        iCommonPresenter.netSuccess(apiConfig, loadTypeConfig, values, o != null && o.length == 1 ? o[0] : o);
                     }
 
                     @Override
                     public void onFailed(Throwable throwable) {
-                        iCommonPresenter.netFailed(apiConfig,throwable);
+                        iCommonPresenter.netFailed(apiConfig, throwable);
                     }
                 });
     }
 
 
-    public <T,O> void netWorkByConsumer(Observable<T> localTestInfo,ICommonPresenter iCommonPresenter,int apiConfig,int loadTypeConfig,O...os){
+    public <T, O> void netWorkByConsumer(Observable<T> localTestInfo, ICommonPresenter iCommonPresenter, int apiConfig, int loadTypeConfig, O... os) {
         Disposable subscribe = localTestInfo.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(values -> iCommonPresenter.netSuccess(apiConfig,loadTypeConfig,values,os),
-                        throwable -> iCommonPresenter.netFailed(apiConfig,throwable));
+                .subscribe(values -> iCommonPresenter.netSuccess(apiConfig, loadTypeConfig, values, os),
+                        throwable -> iCommonPresenter.netFailed(apiConfig, throwable));
         iCommonPresenter.addObserver(subscribe);
     }
 }

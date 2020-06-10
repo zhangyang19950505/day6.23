@@ -7,4 +7,5 @@
     <string name="security_login">验证码登录</string>
     <string name="login">登录</string>
     <string name="text_live_area">直播专区</string>
+    <string name="activity_name">跳转页面常量</string>
 </resources>

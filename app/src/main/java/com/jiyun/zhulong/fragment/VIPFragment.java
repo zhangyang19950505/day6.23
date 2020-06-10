@@ -10,7 +10,7 @@ import com.jiyun.bean.VIPBannerBean;
 import com.jiyun.bean.VIPBottomDataBean;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
-import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.ParamHashMap;

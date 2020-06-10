@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.jiyun.frame.bean.FuliBean;
+import com.jiyun.bean.FuliBean;
 import com.jiyun.zhulong.R;
 
 import java.util.ArrayList;

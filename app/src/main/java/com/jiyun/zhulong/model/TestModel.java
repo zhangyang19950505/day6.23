@@ -4,7 +4,6 @@ package com.jiyun.zhulong.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.jiyun.frame.bean.LoginInfo;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.mvp.ICommonPresenter;

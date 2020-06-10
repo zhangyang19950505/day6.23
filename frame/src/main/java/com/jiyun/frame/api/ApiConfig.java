@@ -15,4 +15,6 @@ public class ApiConfig {
     public static final int VIP_BOTTOM_DATA_INFO = 11;
     public static final int HOME_TOP_DATA_INFO = 12;
     public static final int HOME_BOTTOM_DATA_INFO = 13;
+    public static final int DATA_ADD_FOLLOW = 14;
+    public static final int DATA_CANCEL_FOLLOW = 15;
 }

@@ -1,12 +1,16 @@
 package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.jiyun.bean.BaseInfo;
+import com.jiyun.bean.LoginInfo;
+import com.jiyun.bean.PersonHeader;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
-import com.jiyun.frame.bean.BaseInfo;
-import com.jiyun.frame.bean.LoginInfo;
-import com.jiyun.frame.bean.PersonHeader;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
@@ -18,6 +22,7 @@ import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -26,9 +31,11 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginViewCallBack {
     @BindView(R.id.login_view)
     LoginView mLoginView;
+    @BindView(R.id.close_login)
+    ImageView closeLogin;
     private Disposable mSubscribe;
     private String phoneNum;
-    private long time = 60l;
+    private long time = 59l;
 
 
     @Override
@@ -79,10 +86,29 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         }
     }
 
+    @Override
+    public void initListener() {
+        super.initListener();
+        closeLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                //如果上个页面有传过来数据，没有传过来数据就直接finish掉
+                if (!TextUtils.isEmpty(intent.getStringExtra(getApplicationContext().getString(R.string.activity_name)))) {
+                    String string = getApplicationContext().getString(R.string.activity_name);
+                    if (string.equals("specialty")) {
+                        startActivity(new Intent(LoginActivity.this, MyHomeActivity.class));
+                    }
+                }
+                finish();
+            }
+        });
+    }
+
     //如果已经选择过专业就跳转首页，否则跳转专业选择页
     private void jump() {
         if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, MyHomeActivity.class));
         } else {
             startActivity(new Intent(this, SpecialtyActivity.class));
         }
@@ -123,4 +149,5 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         super.onDestroy();
         doPre();
     }
+
 }

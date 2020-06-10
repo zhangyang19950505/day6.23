@@ -20,9 +20,9 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
-import com.jiyun.frame.bean.LeadBean;
-import com.jiyun.frame.bean.LoginInfo;
-import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.bean.LeadBean;
+import com.jiyun.bean.LoginInfo;
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.ParamHashMap;
@@ -168,12 +168,12 @@ public class MainActivity extends BaseMvpActiviy {
             @Override
             public void onClick(View view) {
                 //在广告没有加载到imageview上时，不予许点击，且只有第一次点击有效
-                if (jump_url != null && time < 5 && !isClick) {
+                if (jump_url != null && time < 5) {
                     time = -2;
                     Intent intent = new Intent(getApplicationContext(), WebActivity.class);
                     intent.putExtra("url", jump_url);
                     startActivity(intent);
-                    isClick = true;
+                    mHomeTopImg.setEnabled(false);
                     finish();
                 }
             }
@@ -182,11 +182,8 @@ public class MainActivity extends BaseMvpActiviy {
         mHomeTimeBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isClick) {
-                    time = -2;
-                    isClick = true;
-                    goToActivity();
-                }
+                time = -2;
+                goToActivity();
             }
         });
     }

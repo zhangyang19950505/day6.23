@@ -1,21 +1,21 @@
 package com.jiyun.frame.api;
 
-import java.util.Map;
-
 import com.google.gson.JsonObject;
 import com.jiyun.bean.CourseDrillBean;
 import com.jiyun.bean.DataSquadBean;
 import com.jiyun.bean.HomeBottomDataBean;
-import com.jiyun.bean.HomeTopDataBean;
 import com.jiyun.bean.NewsEliteBean;
 import com.jiyun.bean.VIPBannerBean;
 import com.jiyun.bean.VIPBottomDataBean;
-import com.jiyun.frame.bean.BaseInfo;
-import com.jiyun.frame.bean.LeadBean;
-import com.jiyun.frame.bean.FuliBean;
-import com.jiyun.frame.bean.LoginInfo;
-import com.jiyun.frame.bean.PersonHeader;
-import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.bean.BaseInfo;
+import com.jiyun.bean.FuliBean;
+import com.jiyun.bean.LeadBean;
+import com.jiyun.bean.LoginInfo;
+import com.jiyun.bean.PersonHeader;
+import com.jiyun.bean.SpecialtyBean;
+
+import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -55,7 +55,7 @@ public interface ApiService {
 
     //资料，小组
     @GET("group/getGroupList")
-    Observable<DataSquadBean> getDataSquadData(@QueryMap Map<String, Object> map);
+    Observable<BaseInfo<List<DataSquadBean>>> getDataSquadData(@QueryMap Map<String, Object> map);
 
     //资料，最新精华
     @GET("group/getThreadEssence")
@@ -63,16 +63,27 @@ public interface ApiService {
 
     //vip
     @GET("lesson/get_new_vip")
-    Observable<VIPBannerBean>getVIPBannerData();
+    Observable<VIPBannerBean> getVIPBannerData();
 
     //vip recyclerview接口
     @GET("lesson/getVipSmallLessonList")
-    Observable<VIPBottomDataBean>getVIPBottomData(@QueryMap Map<String,Object>map);
+    Observable<VIPBottomDataBean> getVIPBottomData(@QueryMap Map<String, Object> map);
 
     //主页 banner
     @GET("lesson/getCarouselphoto")
-    Observable<JsonObject>getHomeTopData(@QueryMap Map<String,Object>map);
+    Observable<JsonObject> getHomeTopData(@QueryMap Map<String, Object> map);
+
     //主页 recyclerview
     @GET("lesson/getIndexCommend")
-    Observable<HomeBottomDataBean>getHomeBottomData(@QueryMap Map<String,Object>map);
+    Observable<HomeBottomDataBean> getHomeBottomData(@QueryMap Map<String, Object> map);
+
+    //资料关注
+    @POST("joingroup")
+    @FormUrlEncoded
+    Observable<BaseInfo> addFollow(@FieldMap Map<String, Object> map);
+
+    //资料取消关注
+    @POST("removeGroup")
+    @FormUrlEncoded
+    Observable<BaseInfo> removeFollow(@FieldMap Map<String, Object> map);
 }

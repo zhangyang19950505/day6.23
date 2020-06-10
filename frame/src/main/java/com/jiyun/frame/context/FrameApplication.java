@@ -3,9 +3,9 @@ package com.jiyun.frame.context;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.jiyun.frame.bean.SpecialtyBean;
-import com.jiyun.frame.bean.Device;
-import com.jiyun.frame.bean.LoginInfo;
+import com.jiyun.bean.SpecialtyBean;
+import com.jiyun.bean.Device;
+import com.jiyun.bean.LoginInfo;
 import com.yiyatech.utils.UtilsApplication;
 
 

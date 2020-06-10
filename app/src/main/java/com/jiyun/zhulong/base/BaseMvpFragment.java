@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.jiyun.frame.bean.Device;
+import com.jiyun.bean.Device;
 import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.frame.mvp.CommonPresenter;
 import com.jiyun.frame.mvp.ICommonModel;

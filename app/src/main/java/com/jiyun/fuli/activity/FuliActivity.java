@@ -3,7 +3,7 @@ package com.jiyun.fuli.activity;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jiyun.frame.bean.FuliBean;
+import com.jiyun.bean.FuliBean;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.api.LoadTypeConfig;

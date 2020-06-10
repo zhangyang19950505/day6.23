@@ -1,7 +1,6 @@
 package com.jiyun.zhulong.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jiyun.frame.bean.SpecialtyBean;
-import com.jiyun.frame.constants.ConstantKey;
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.activity.HomeActivity;
-import com.jiyun.zhulong.activity.MyHomeActivity;
-import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +53,7 @@ public class ChildSpecialtyRvAdapter extends RecyclerView.Adapter<ChildSpecialty
             dataBean.setSelected(true);
             holder.tv_child_specialty.setTextColor(ContextCompat.getColor(context, R.color.white));
             holder.tv_child_specialty.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_subject_selected));
-            //将选中的条目保存到sp中，用于再次启动时如果已经选择过专业就直接跳转到首页
-            SharedPrefrenceUtils.putObject(context, ConstantKey.IS_SELECTDE, dataBean);
+
         } else {
             dataBean.setSelected(false);
             holder.tv_child_specialty.setTextColor(ContextCompat.getColor(context, R.color.fontColor333));
@@ -70,8 +64,7 @@ public class ChildSpecialtyRvAdapter extends RecyclerView.Adapter<ChildSpecialty
             public void onClick(View view) {
                 FrameApplication.getFrameApplication().setSelectedInfo(dataBean);
                 specialtyRvAdapter.notifyDataSetChanged();
-                onItemClickListener.onItemClick(position);
-//                context.startActivity(new Intent(context, MyHomeActivity.class));
+                onItemClickListener.onItemClick(dataBean);
             }
         });
     }
@@ -90,13 +83,14 @@ public class ChildSpecialtyRvAdapter extends RecyclerView.Adapter<ChildSpecialty
             tv_child_specialty = itemView.findViewById(R.id.tv_child_specialty);
         }
     }
+
     private OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    interface OnItemClickListener{
-        void onItemClick(int position);
+    interface OnItemClickListener {
+        void onItemClick(SpecialtyBean.ResultBean.DataBean dataBean);
     }
 }

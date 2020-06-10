@@ -8,12 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.zhulong.R;
 
 import java.util.ArrayList;
@@ -61,8 +60,8 @@ public class SpecialtyRvAdapter extends RecyclerView.Adapter<SpecialtyRvAdapter.
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(new ChildSpecialtyRvAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                OnGroupItemClickListener.onItemClick(position);
+            public void onItemClick(SpecialtyBean.ResultBean.DataBean dataBean) {
+                OnGroupItemClickListener.onItemClick(dataBean);
             }
         });
     }
@@ -92,6 +91,6 @@ public class SpecialtyRvAdapter extends RecyclerView.Adapter<SpecialtyRvAdapter.
     }
 
     public interface OnGroupItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(SpecialtyBean.ResultBean.DataBean dataBean);
     }
 }

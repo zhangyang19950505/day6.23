@@ -1,4 +1,4 @@
-package com.jiyun.frame.bean;
+package com.jiyun.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

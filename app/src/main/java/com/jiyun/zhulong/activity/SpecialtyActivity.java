@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
-import com.jiyun.frame.bean.SpecialtyBean;
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
@@ -36,7 +36,7 @@ public class SpecialtyActivity extends BaseMvpActiviy {
     @BindView(R.id.rv_group_specialty)
     RecyclerView rv_group_specialty;
     private SpecialtyRvAdapter adapter;
-    private List<SpecialtyBean.ResultBean> result=new ArrayList<>();
+    private List<SpecialtyBean.ResultBean> result = new ArrayList<>();
 
     @Override
     protected int setLayout() {
@@ -55,16 +55,23 @@ public class SpecialtyActivity extends BaseMvpActiviy {
         rv_group_specialty.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SpecialtyRvAdapter(this);
         rv_group_specialty.setAdapter(adapter);
+        //强制要求用户选择一个专业，如果没有选择过专业不让点击返回按钮
+        if (SharedPrefrenceUtils.getObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE) != null) {
+            imgBack.setEnabled(true);
+        } else {
+            showToast("请选择一个专业");
+            imgBack.setEnabled(false);
+        }
     }
 
     @Override
     protected void initData() {
         //若果没有缓存就读取网络数据，如果有缓存就使用缓存的数据
-        if (SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST)!=null){
-            result.addAll(SharedPrefrenceUtils.getSerializableList(this,ConstantKey.SUBJECT_LIST));
+        if (SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST) != null) {
+            result.addAll(SharedPrefrenceUtils.getSerializableList(this, ConstantKey.SUBJECT_LIST));
             adapter.initData(result);
             adapter.notifyDataSetChanged();
-        }else {
+        } else {
             mPresenter.getData(ApiConfig.SPECIALTY_URL, LoadTypeConfig.NORMAL);
         }
         adapter.notifyDataSetChanged();
@@ -77,10 +84,10 @@ public class SpecialtyActivity extends BaseMvpActiviy {
                 if (objects != null && objects.length > 0) {
                     SpecialtyBean specialtyBean = (SpecialtyBean) objects[0];
                     if (specialtyBean.getResult() != null && specialtyBean.getResult().size() > 0) {
-                        result .addAll(specialtyBean.getResult());
+                        result.addAll(specialtyBean.getResult());
                         adapter.initData(result);
                         //将网络获取的数据保存到本地
-                        SharedPrefrenceUtils.putSerializableList(this,ConstantKey.SUBJECT_LIST,result);
+                        SharedPrefrenceUtils.putSerializableList(this, ConstantKey.SUBJECT_LIST, result);
                     }
                 }
                 break;
@@ -93,11 +100,24 @@ public class SpecialtyActivity extends BaseMvpActiviy {
 
         adapter.setOnItemClickListener(new SpecialtyRvAdapter.OnGroupItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                finish();
+            public void onItemClick(SpecialtyBean.ResultBean.DataBean dataBean) {
+                //判断跳转的页面,如果没有登录就先登录，如果登录了后，如果是第一次选择专业的话就跳转到首页，否则就finish掉，让他回到上个页面
+                if (mApplication.isLogin()) {
+                    if (SharedPrefrenceUtils.getObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE) != null) {
+                        SharedPrefrenceUtils.putObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE, dataBean);
+                        finish();
+                    } else {
+                        SharedPrefrenceUtils.putObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE, dataBean);
+                        startActivity(new Intent(SpecialtyActivity.this, MyHomeActivity.class));
+                    }
+                } else {
+                    Intent intent = new Intent(SpecialtyActivity.this, LoginActivity.class);
+                    intent.putExtra(getApplicationContext().getString(R.string.app_name), "specialty");
+                    startActivity(intent);
+                }
             }
         });
-        //点击返回图片跳转首页页面
+        //点击返回图片
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +132,6 @@ public class SpecialtyActivity extends BaseMvpActiviy {
     protected void onStop() {
         super.onStop();
         //将状态保存下来，用来再次选择专业时将上次选择的显示出来
-        SharedPrefrenceUtils.putObject(this,ConstantKey.SUBJECT_LIST,mApplication.getSelectedInfo());
+        SharedPrefrenceUtils.putObject(this, ConstantKey.SUBJECT_LIST, mApplication.getSelectedInfo());
     }
 }

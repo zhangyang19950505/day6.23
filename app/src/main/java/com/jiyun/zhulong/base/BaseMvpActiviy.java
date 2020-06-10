@@ -8,13 +8,12 @@ import androidx.annotation.Nullable;
 
 
 import com.jiyun.frame.constants.ConstantKey;
-import com.jiyun.frame.bean.Device;
+import com.jiyun.bean.Device;
 import com.jiyun.frame.mvp.CommonPresenter;
 import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.mvp.ICommonView;
 import com.jiyun.frame.utils.SystemUtils;
-import com.jiyun.zhulong.activity.HomeActivity;
 import com.jiyun.zhulong.activity.LoginActivity;
 import com.jiyun.zhulong.activity.MyHomeActivity;
 import com.jiyun.zhulong.activity.SpecialtyActivity;
@@ -72,15 +71,17 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
 
     //跳转页面
     public void goToActivity() {
-        if (mApplication.isLogin()) {
-            if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
+        //如果已经选择过专业就判断是否登录了，如果登陆了就跳转到主页面，没有登录就跳转到登录页面。。
+        if (!TextUtils.isEmpty(SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE))) {
+            if (mApplication.isLogin()) {
                 startActivity(new Intent(this, MyHomeActivity.class));
             } else {
-                startActivity(new Intent(this, SpecialtyActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
             }
-        } else {
-            startActivity(new Intent(this, LoginActivity.class));
+        } else {//如果没有选择过专业就跳转到选择专业界面
+            startActivity(new Intent(this, SpecialtyActivity.class));
         }
+        //然后将这个界面finish掉
         finish();
     }
 
