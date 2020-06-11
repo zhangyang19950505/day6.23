@@ -14,6 +14,7 @@ import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.mvp.ICommonView;
 import com.jiyun.frame.utils.SystemUtils;
+import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.activity.LoginActivity;
 import com.jiyun.zhulong.activity.MyHomeActivity;
 import com.jiyun.zhulong.activity.SpecialtyActivity;
@@ -71,12 +72,14 @@ public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivit
 
     //跳转页面
     public void goToActivity() {
-        //如果已经选择过专业就判断是否登录了，如果登陆了就跳转到主页面，没有登录就跳转到登录页面。。
-        if (!TextUtils.isEmpty(SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE))) {
+        //如果已经选择过专业就判断是否登录了，如果登陆了就跳转到主页面，没有登录携带一个数据跳转到登录页面。。
+        if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
             if (mApplication.isLogin()) {
                 startActivity(new Intent(this, MyHomeActivity.class));
             } else {
-                startActivity(new Intent(this, LoginActivity.class));
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra(getApplicationContext().getString(R.string.activity_name), "main");
+                startActivity(intent);
             }
         } else {//如果没有选择过专业就跳转到选择专业界面
             startActivity(new Intent(this, SpecialtyActivity.class));

@@ -25,6 +25,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Url;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -86,4 +87,29 @@ public interface ApiService {
     @POST("removeGroup")
     @FormUrlEncoded
     Observable<BaseInfo> removeFollow(@FieldMap Map<String, Object> map);
+
+    //注册验证手机号是否已经注册过了
+    @POST("checkMobileIsUse")
+    @FormUrlEncoded
+    Observable<BaseInfo> verifyPhoneisRegister(@Field("mobile") Object mobile);
+
+    //发送验证码
+    @POST("sendMobileCode")
+    @FormUrlEncoded
+    Observable<BaseInfo> sendRegisterVerify(@Field("mobile") Object mobile);
+
+    //注册手机号
+    @POST("checkMobileCode")
+    @FormUrlEncoded
+    Observable<BaseInfo> checkVerifyCode(@FieldMap Map<String, Object> params);
+
+    //注册用户名
+    @POST("user/usernameIsExist")
+    @FormUrlEncoded
+    Observable<BaseInfo> checkName(@Field("username") Object mobile);
+
+    //注册账号
+    @POST("userRegForSimple")
+    @FormUrlEncoded
+    Observable<BaseInfo> registerCompleteWithSubject(@FieldMap Map<String, Object> params);
 }

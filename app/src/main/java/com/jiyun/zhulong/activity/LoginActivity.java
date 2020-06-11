@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jiyun.bean.BaseInfo;
 import com.jiyun.bean.LoginInfo;
@@ -33,9 +34,12 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
     LoginView mLoginView;
     @BindView(R.id.close_login)
     ImageView closeLogin;
+    @BindView(R.id.register_press)
+    TextView registerPress;
     private Disposable mSubscribe;
     private String phoneNum;
     private long time = 59l;
+    private Intent intent;
 
 
     @Override
@@ -50,6 +54,7 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
 
     @Override
     protected void initView() {
+        intent = getIntent();
         mLoginView.setLoginViewCallBack(this);
     }
 
@@ -89,29 +94,39 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
     @Override
     public void initListener() {
         super.initListener();
+        //点击了注册账号,跳转到注册页面
+        registerPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
+        //点击 X 图片
         closeLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = getIntent();
-                //如果上个页面有传过来数据，没有传过来数据就直接finish掉
+                //取消登录时如果上个页面有传过来数据就跳转到首页，没有传过来数据就直接返回上个页面
                 if (!TextUtils.isEmpty(intent.getStringExtra(getApplicationContext().getString(R.string.activity_name)))) {
                     String string = getApplicationContext().getString(R.string.activity_name);
-                    if (string.equals("specialty")) {
-                        startActivity(new Intent(LoginActivity.this, MyHomeActivity.class));
-                    }
+                    startActivity(new Intent(LoginActivity.this, MyHomeActivity.class));
                 }
                 finish();
             }
         });
     }
 
-    //如果已经选择过专业就跳转首页，否则跳转专业选择页
+    //登陆成功如果上个页面有传过来数据就跳转到首页，没有传过来数据就直接让他返回到上个页面
     private void jump() {
-        if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
-            startActivity(new Intent(this, MyHomeActivity.class));
-        } else {
-            startActivity(new Intent(this, SpecialtyActivity.class));
+
+        if (!TextUtils.isEmpty(intent.getStringExtra(getApplicationContext().getString(R.string.activity_name)))) {
+            if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
+                startActivity(new Intent(LoginActivity.this, MyHomeActivity.class));
+            } else {
+                startActivity(new Intent(this, SpecialtyActivity.class));
+            }
         }
+
         this.finish();
     }
 
@@ -121,13 +136,15 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(goTime -> {
                     mLoginView.tvSecurityGetAuthcode.setText(time - goTime + "s");
-                    if (time - goTime < 1) doPre();
+                    if (time - goTime < 1) {
+                        doPre();
+                        mLoginView.tvSecurityGetAuthcode.setText("获取验证码");
+                    }
                 });
     }
 
     private void doPre() {
         if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
-        mLoginView.tvSecurityGetAuthcode.setText("获取验证码");
     }
 
 
@@ -150,4 +167,10 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         doPre();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

@@ -45,4 +45,5 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'
 
     implementation project(path: ':frame')
+    implementation project(path: ':basepop')
 }

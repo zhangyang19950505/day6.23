@@ -183,6 +183,7 @@ public class MainActivity extends BaseMvpActiviy {
             @Override
             public void onClick(View view) {
                 time = -2;
+                mHomeTimeBt.setEnabled(false);
                 goToActivity();
             }
         });
