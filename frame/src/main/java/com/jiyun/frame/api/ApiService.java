@@ -112,4 +112,16 @@ public interface ApiService {
     @POST("userRegForSimple")
     @FormUrlEncoded
     Observable<BaseInfo> registerCompleteWithSubject(@FieldMap Map<String, Object> params);
+
+    //账号登录
+    @POST("user/userLoginNewAuth")
+    @FormUrlEncoded
+    Observable<BaseInfo<LoginInfo>> accountLogin(@FieldMap Map<String, Object> map);
+
+    @GET("access_token")
+    Observable<JsonObject> getWechatToken(@QueryMap Map<String, Object> map);
+
+    @POST("thirdlogin")
+    @FormUrlEncoded
+    Observable<BaseInfo<LoginInfo>> loginByWechat(@FieldMap Map<String, Object> map);
 }

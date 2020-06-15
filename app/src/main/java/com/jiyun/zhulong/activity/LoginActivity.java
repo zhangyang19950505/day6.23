@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jiyun.bean.BaseInfo;
 import com.jiyun.bean.LoginInfo;
 import com.jiyun.bean.PersonHeader;
+import com.jiyun.bean.ThirdLoginData;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.frame.constants.ConstantKey;
@@ -18,12 +19,20 @@ import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpActiviy;
 import com.jiyun.zhulong.design.LoginView;
 import com.jiyun.zhulong.model.AccountModel;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
+import com.zhulong.eduvideo.wxapi.WXEntryActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -40,6 +49,7 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
     private String phoneNum;
     private long time = 59l;
     private Intent intent;
+    private String activityName;
 
 
     @Override
@@ -74,9 +84,12 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
                 goTime();
                 break;
             case ApiConfig.VERIFY_LOGIN:
+            case ApiConfig.ACCOUNT_LOGIN:
+            case ApiConfig.POST_WE_CHAT_LOGIN_INFO:
                 BaseInfo<LoginInfo> baseInfo = (BaseInfo<LoginInfo>) objects[0];
                 LoginInfo loginInfo = baseInfo.result;
-                loginInfo.login_name = phoneNum;
+                if (!TextUtils.isEmpty(phoneNum))
+                    loginInfo.login_name = phoneNum;
                 mApplication.setLoginInfo(loginInfo);
                 mPresenter.getData(ApiConfig.GET_HEADER_INFO, LoadTypeConfig.NORMAL);
                 break;
@@ -87,6 +100,21 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
                 SharedPrefrenceUtils.putObject(this, ConstantKey.LOGIN_INFO, mApplication.getLoginInfo());
                 showLog("登录成功，-------用户信息：" + SharedPrefrenceUtils.getObject(this, ConstantKey.LOGIN_INFO));
                 jump();
+                break;
+            case ApiConfig.GET_WE_CHAT_TOKEN:
+                JSONObject allJson = null;
+                try {
+                    allJson = new JSONObject(objects[0].toString());
+                } catch (JSONException pE) {
+                    pE.printStackTrace();
+                }
+                ThirdLoginData thirdData = new ThirdLoginData(3);
+                thirdData.setOpenid(allJson.optString("openid"));
+                thirdData.token = allJson.optString("access_token");
+                thirdData.refreshToken = allJson.optString("refresh_token");
+                thirdData.utime = allJson.optLong("expires_in") * 1000;
+                thirdData.unionid = allJson.optString("unionid");
+                mPresenter.getData(ApiConfig.POST_WE_CHAT_LOGIN_INFO, LoadTypeConfig.NORMAL, thirdData);
                 break;
         }
     }
@@ -99,6 +127,7 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
             }
         });
 
@@ -119,15 +148,14 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
     //登陆成功如果上个页面有传过来数据就跳转到首页，没有传过来数据就直接让他返回到上个页面
     private void jump() {
 
-        if (!TextUtils.isEmpty(intent.getStringExtra(getApplicationContext().getString(R.string.activity_name)))) {
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(getApplicationContext().getString(R.string.activity_name)))) {
             if (SharedPrefrenceUtils.getObject(this, ConstantKey.IS_SELECTDE) != null) {
                 startActivity(new Intent(LoginActivity.this, MyHomeActivity.class));
             } else {
                 startActivity(new Intent(this, SpecialtyActivity.class));
             }
         }
-
-        this.finish();
+        finish();
     }
 
     private void goTime() {
@@ -154,11 +182,15 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         mPresenter.getData(ApiConfig.SEND_VERIFY, LoadTypeConfig.NORMAL, phoneNum);
     }
 
+    //登录
     @Override
     public void loginPress(int type, String userName, String pwd) {
         doPre();
+        //点击验证码登录
         if (mLoginView.mCurrentLoginType == mLoginView.SECURITY_TYPE)
             mPresenter.getData(ApiConfig.VERIFY_LOGIN, LoadTypeConfig.NORMAL, userName, pwd);
+        else mPresenter.getData(ApiConfig.ACCOUNT_LOGIN, LoadTypeConfig.NORMAL, userName, pwd);
+
     }
 
     @Override
@@ -167,10 +199,48 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         doPre();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    @OnClick({R.id.login_by_qq, R.id.login_by_wx})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.login_by_qq:
+                break;
+            case R.id.login_by_wx:
+                doWechatLogin();
+                break;
+        }
+    }
+
+    private void doWechatLogin() {
+        WXEntryActivity.setOnWeChatLoginResultListener(it -> {
+            int errorCode = it.getIntExtra("errorCode", 0);
+            String normalCode = it.getStringExtra("normalCode");
+            switch (errorCode) {
+                case 0:
+                    showLog("用户已同意微信登录");
+                    mPresenter.getData(ApiConfig.GET_WE_CHAT_TOKEN, LoadTypeConfig.NORMAL, normalCode);
+                    break;
+                case -4:
+                    showToast("用户拒绝授权");
+                    break;
+                case -2:
+                    showToast("用户取消");
+                    break;
+
+            }
+        });
+        IWXAPI weChatApi = WXAPIFactory.createWXAPI(this, null);
+        weChatApi.registerApp(ConstantKey.WX_APP_ID);
+        if (weChatApi.isWXAppInstalled()) {
+            doWeChatLogin();
+        } else showToast("请先安装微信");
+    }
+
+    private void doWeChatLogin() {
+        SendAuth.Req request = new SendAuth.Req();
+//        snsapi_base 和snsapi_userinfo  静态获取和同意后获取
+        request.scope = "snsapi_userinfo";
+        request.state = "com.zhulong.eduvideo";
+        IWXAPI weChatApi = WXAPIFactory.createWXAPI(this, ConstantKey.WX_APP_ID);
+        weChatApi.sendReq(request);
     }
 }

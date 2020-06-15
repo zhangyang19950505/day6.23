@@ -9,9 +9,9 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.api.ApiConfig;
 import com.jiyun.frame.api.LoadTypeConfig;
-import com.jiyun.bean.SpecialtyBean;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
@@ -105,16 +105,17 @@ public class SpecialtyActivity extends BaseMvpActiviy {
                 if (mApplication.isLogin()) {
                     if (SharedPrefrenceUtils.getObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE) != null) {
                         SharedPrefrenceUtils.putObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE, dataBean);
-                        finish();
                     } else {
                         SharedPrefrenceUtils.putObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE, dataBean);
                         startActivity(new Intent(SpecialtyActivity.this, MyHomeActivity.class));
                     }
                 } else {
+                    SharedPrefrenceUtils.putObject(SpecialtyActivity.this, ConstantKey.IS_SELECTDE, dataBean);
                     Intent intent = new Intent(SpecialtyActivity.this, LoginActivity.class);
-                    intent.putExtra(getApplicationContext().getString(R.string.app_name), "specialty");
+                    intent.putExtra(getApplicationContext().getString(R.string.activity_name), "specialty");
                     startActivity(intent);
                 }
+                finish();
             }
         });
         //点击返回图片

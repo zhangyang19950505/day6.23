@@ -22,4 +22,7 @@ public class ApiConfig {
     public static final int REGISTER_PHONE = 18;
     public static final int NET_CHECK_USERNAME = 19;
     public static final int COMPLETE_REGISTER_WITH_SUBJECT = 20;
+    public static final int ACCOUNT_LOGIN = 21;
+    public static final int GET_WE_CHAT_TOKEN = 22;
+    public static final int POST_WE_CHAT_LOGIN_INFO = 23;
 }
