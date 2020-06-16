@@ -19,7 +19,7 @@ import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.TabLayoutUtil;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 import com.jiyun.zhulong.fragment.CourseFragment;
 import com.jiyun.zhulong.fragment.MainHomeFragment;
 import com.jiyun.zhulong.fragment.MineFragment;
@@ -30,7 +30,7 @@ import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import butterknife.BindView;
 
-public class HomeActivity extends BaseMvpActiviy {
+public class HomeActivity extends BaseMvpActivity {
 
     @BindView(R.id.tv_career)
     TextView tvCareer;

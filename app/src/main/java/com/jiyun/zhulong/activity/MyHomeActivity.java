@@ -13,12 +13,12 @@ import androidx.navigation.Navigation;
 
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 
-public class MyHomeActivity extends BaseMvpActiviy implements NavController.OnDestinationChangedListener {
+public class MyHomeActivity extends BaseMvpActivity implements NavController.OnDestinationChangedListener {
 
-    private NavController navController;
-    private long exitTime=0;
+    public NavController navController;
+    private long exitTime = 0;
 
 
     @Override
@@ -50,6 +50,7 @@ public class MyHomeActivity extends BaseMvpActiviy implements NavController.OnDe
     @Override
     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
         String label = destination.getLabel().toString();
+        showLog(label);
     }
 
     //连按两次返回键回退到桌面

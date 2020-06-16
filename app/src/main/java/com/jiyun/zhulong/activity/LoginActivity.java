@@ -1,7 +1,6 @@
 package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +15,7 @@ import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 import com.jiyun.zhulong.design.LoginView;
 import com.jiyun.zhulong.model.AccountModel;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -31,14 +30,13 @@ import org.json.JSONObject;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginViewCallBack {
+public class LoginActivity extends BaseMvpActivity implements LoginView.LoginViewCallBack {
     @BindView(R.id.login_view)
     LoginView mLoginView;
     @BindView(R.id.close_login)
@@ -49,6 +47,7 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
     private String phoneNum;
     private long time = 59l;
     private Intent intent;
+    private ThirdLoginData mThirdData;
     private String activityName;
 
 
@@ -87,13 +86,21 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
             case ApiConfig.ACCOUNT_LOGIN:
             case ApiConfig.POST_WE_CHAT_LOGIN_INFO:
                 BaseInfo<LoginInfo> baseInfo = (BaseInfo<LoginInfo>) objects[0];
-                LoginInfo loginInfo = baseInfo.result;
-                if (!TextUtils.isEmpty(phoneNum))
-                    loginInfo.login_name = phoneNum;
-                mApplication.setLoginInfo(loginInfo);
-                mPresenter.getData(ApiConfig.GET_HEADER_INFO, LoadTypeConfig.NORMAL);
+                if (baseInfo.isSuccess()) {
+                    LoginInfo loginInfo = baseInfo.result;
+                    if (!TextUtils.isEmpty(phoneNum))
+                        loginInfo.login_name = phoneNum;
+                    mApplication.setLoginInfo(loginInfo);
+                    mPresenter.getData(ApiConfig.GET_HEADER_INFO, LoadTypeConfig.NORMAL);
+                } else if (baseInfo.errNo == 1300) {
+                    Intent intent = new Intent(this, ThirdAccoutBindActivity.class);
+                    startActivityForResult(intent.putExtra("thirdData", mThirdData), ConstantKey.LOGIN_TO_BIND);
+                } else {
+                    showToast(baseInfo.msg);
+                }
                 break;
             case ApiConfig.GET_HEADER_INFO:
+                doPre();
                 PersonHeader personHeader = ((BaseInfo<PersonHeader>) objects[0]).result;
                 mApplication.getLoginInfo().personHeader = personHeader;
                 //将用户信息保存到本地，下次将 不再登录
@@ -108,13 +115,13 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
                 } catch (JSONException pE) {
                     pE.printStackTrace();
                 }
-                ThirdLoginData thirdData = new ThirdLoginData(3);
-                thirdData.setOpenid(allJson.optString("openid"));
-                thirdData.token = allJson.optString("access_token");
-                thirdData.refreshToken = allJson.optString("refresh_token");
-                thirdData.utime = allJson.optLong("expires_in") * 1000;
-                thirdData.unionid = allJson.optString("unionid");
-                mPresenter.getData(ApiConfig.POST_WE_CHAT_LOGIN_INFO, LoadTypeConfig.NORMAL, thirdData);
+                mThirdData = new ThirdLoginData(3);
+                mThirdData.setOpenid(allJson.optString("openid"));
+                mThirdData.token = allJson.optString("access_token");
+                mThirdData.refreshToken = allJson.optString("refresh_token");
+                mThirdData.utime = allJson.optLong("expires_in") * 1000;
+                mThirdData.unionid = allJson.optString("unionid");
+                mPresenter.getData(ApiConfig.POST_WE_CHAT_LOGIN_INFO, LoadTypeConfig.NORMAL, mThirdData);
                 break;
         }
     }
@@ -210,6 +217,7 @@ public class LoginActivity extends BaseMvpActiviy implements LoginView.LoginView
         }
     }
 
+    //微信登录
     private void doWechatLogin() {
         WXEntryActivity.setOnWeChatLoginResultListener(it -> {
             int errorCode = it.getIntExtra("errorCode", 0);

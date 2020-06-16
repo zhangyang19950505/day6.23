@@ -1,18 +1,19 @@
 package com.jiyun.frame.api;
 
 import com.google.gson.JsonObject;
+import com.jiyun.bean.BaseInfo;
 import com.jiyun.bean.CourseDrillBean;
 import com.jiyun.bean.DataSquadBean;
-import com.jiyun.bean.HomeBottomDataBean;
-import com.jiyun.bean.NewsEliteBean;
-import com.jiyun.bean.VIPBannerBean;
-import com.jiyun.bean.VIPBottomDataBean;
-import com.jiyun.bean.BaseInfo;
 import com.jiyun.bean.FuliBean;
+import com.jiyun.bean.GroupDetailEntity;
+import com.jiyun.bean.HomeBottomDataBean;
 import com.jiyun.bean.LeadBean;
 import com.jiyun.bean.LoginInfo;
+import com.jiyun.bean.NewsEliteBean;
 import com.jiyun.bean.PersonHeader;
 import com.jiyun.bean.SpecialtyBean;
+import com.jiyun.bean.VIPBannerBean;
+import com.jiyun.bean.VIPBottomDataBean;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import retrofit2.http.Url;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -124,4 +124,17 @@ public interface ApiService {
     @POST("thirdlogin")
     @FormUrlEncoded
     Observable<BaseInfo<LoginInfo>> loginByWechat(@FieldMap Map<String, Object> map);
+
+    @POST("newThirdbind")
+    @FormUrlEncoded
+    Observable<BaseInfo> bindThirdAccount(@FieldMap Map<String, Object> map);
+
+    @GET("group/getGroupThreadList")
+    Observable<BaseInfo<GroupDetailEntity>> getGroupDetail(@Query("gid") Object gid);
+
+
+    @GET("group/getGroupThreadList")
+    Observable<BaseInfo<GroupDetailEntity>> getGroupDetailFooterData(@QueryMap Map<String, Object> map);
+
+
 }

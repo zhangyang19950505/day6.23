@@ -28,13 +28,13 @@ import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.frame.utils.ParamHashMap;
 import com.jiyun.frame.utils.SystemUtils;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 import com.jiyun.zhulong.model.TestModel;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseMvpActiviy {
+public class MainActivity extends BaseMvpActivity {
 
     @BindView(R.id.bt_home_time)
     Button mHomeTimeBt;

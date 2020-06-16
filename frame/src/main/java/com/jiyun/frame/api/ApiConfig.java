@@ -25,4 +25,7 @@ public class ApiConfig {
     public static final int ACCOUNT_LOGIN = 21;
     public static final int GET_WE_CHAT_TOKEN = 22;
     public static final int POST_WE_CHAT_LOGIN_INFO = 23;
+    public static final int BIND_ACCOUNT = 24;
+    public static final int GROUP_DETAIL = 25;
+    public static final int GROUP_DETAIL_FOOTER_DATA = 26;
 }

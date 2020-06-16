@@ -74,6 +74,16 @@ public class AccountModel implements ICommonModel {
                 ParamHashMap add1 = new ParamHashMap().add("openid", data.openid).add("type", data.type).add("url", "android");
                 mManager.netWork(mManager.getService(mContext.getString(R.string.passport_api)).loginByWechat(add1), iCommonPresenter, apiConfig, loadTypeConfig);
                 break;
+            case ApiConfig.BIND_ACCOUNT:
+                String account = (String) object[0];
+                String password = (String) object[1];
+                ThirdLoginData thirdLoginData = (ThirdLoginData) object[2];
+                ParamHashMap thirdDataParam = new ParamHashMap().add("username", account).add("password", RsaUtil.encryptByPublic(password))
+                        .add("openid", thirdLoginData.openid).add("t_token", thirdLoginData.token)
+                        .add("utime", thirdLoginData.utime).add("type", thirdLoginData.type)
+                        .add("url", "android").add("state", 1);
+                mManager.netWork(mManager.getService(mContext.getString(R.string.passport_api)).bindThirdAccount(thirdDataParam), iCommonPresenter, apiConfig, loadTypeConfig);
+                break;
         }
     }
 }

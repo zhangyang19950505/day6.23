@@ -2,20 +2,17 @@ package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
-import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WebActivity extends BaseMvpActiviy {
+public class WebActivity extends BaseMvpActivity {
 
     @BindView(R.id.web)
     WebView web;

@@ -9,6 +9,8 @@ import com.jiyun.frame.R;
  */
 public class Constants {
 
+    public static final int LIMIT_NUM = 10;
+
     public static String RSA_PUBLIC;
 
     static {

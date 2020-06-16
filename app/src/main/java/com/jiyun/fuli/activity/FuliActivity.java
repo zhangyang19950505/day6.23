@@ -10,7 +10,7 @@ import com.jiyun.frame.api.LoadTypeConfig;
 import com.jiyun.frame.utils.ParamHashMap;
 import com.jiyun.fuli.adapter.FuliRvAdapter;
 import com.jiyun.zhulong.R;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 import com.jiyun.zhulong.interfaces.DataListener;
 import com.jiyun.zhulong.model.TestModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class FuliActivity extends BaseMvpActiviy {
+public class FuliActivity extends BaseMvpActivity {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;

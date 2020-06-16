@@ -16,7 +16,7 @@ import com.jiyun.frame.constants.ConstantKey;
 import com.jiyun.frame.mvp.ICommonModel;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.adapter.SpecialtyRvAdapter;
-import com.jiyun.zhulong.base.BaseMvpActiviy;
+import com.jiyun.zhulong.base.BaseMvpActivity;
 import com.jiyun.zhulong.model.SpecialtyModel;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
@@ -25,7 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class SpecialtyActivity extends BaseMvpActiviy {
+public class SpecialtyActivity extends BaseMvpActivity {
 
     @BindView(R.id.img_back)
     ImageView imgBack;

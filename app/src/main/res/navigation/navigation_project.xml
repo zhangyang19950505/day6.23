@@ -7,9 +7,15 @@
         android:id="@+id/mainHomeFragment"
         android:name="com.jiyun.zhulong.fragment.MainHomeFragment"
         android:label="MainHomeFragment">
-      <!--  <action
-            android:id="@+id/toAdvert"
-            app:destination="@id/advertFragment" />-->
+        <!--  <action
+              android:id="@+id/toAdvert"
+              app:destination="@id/advertFragment" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/dataSquadDetailsFragment"
+        android:name="com.jiyun.tabdata.fragment.DataSquadDetailsFragment"
+        android:label="DataSquadDetailsFragment">
+
     </fragment>
     <!--<fragment
         android:id="@+id/advertFragment"

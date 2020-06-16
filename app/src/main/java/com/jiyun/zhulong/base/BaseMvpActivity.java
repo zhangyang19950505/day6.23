@@ -23,7 +23,7 @@ import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseMvpActiviy<M extends ICommonModel> extends BaseActivity implements ICommonView {
+public abstract class BaseMvpActivity<M extends ICommonModel> extends BaseActivity implements ICommonView {
     private M mModel;
     public CommonPresenter mPresenter;
 
