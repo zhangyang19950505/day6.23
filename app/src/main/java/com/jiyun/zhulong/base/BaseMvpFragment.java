@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragment implements ICommonView {
     private M mModel;
     public CommonPresenter mPresenter;
+    private boolean isInit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,11 +33,11 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
         // Inflate the layout for this fragment
         View view = inflater.inflate(setLayout(), container, false);
         ButterKnife.bind(this, view);
-        mModel = setModel();
+        if (mModel == null) mModel = setModel();
         if (mModel != null)
             mPresenter = new CommonPresenter(this, mModel);
         initView(view);
-        initData();
+            initData();
         initListener();
         return view;
     }

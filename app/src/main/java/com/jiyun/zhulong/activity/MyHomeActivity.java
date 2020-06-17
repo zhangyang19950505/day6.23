@@ -50,26 +50,26 @@ public class MyHomeActivity extends BaseMvpActivity implements NavController.OnD
     @Override
     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
         String label = destination.getLabel().toString();
-        showLog(label);
+        showLog("myHomeActivity:" + label);
     }
 
     //连按两次返回键回退到桌面
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一下返回桌面",
-                        Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK
+//                && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            if ((System.currentTimeMillis() - exitTime) > 2000) {
+//                Toast.makeText(getApplicationContext(), "再按一下返回桌面",
+//                        Toast.LENGTH_SHORT).show();
+//                exitTime = System.currentTimeMillis();
+//            } else {
+//                Intent i = new Intent(Intent.ACTION_MAIN);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(i);
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 }

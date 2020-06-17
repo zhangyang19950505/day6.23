@@ -27,10 +27,10 @@
 
     <com.jiyun.zhulong.design.LoginView
         android:id="@+id/login_view"
-        app:isMoretype="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image"/>
+        app:isMoretype="true"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
 
     <TextView
         android:id="@+id/register_press"

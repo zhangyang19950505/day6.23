@@ -134,7 +134,7 @@ public interface ApiService {
 
 
     @GET("group/getGroupThreadList")
-    Observable<BaseInfo<GroupDetailEntity>> getGroupDetailFooterData(@QueryMap Map<String, Object> map);
+    Observable<JsonObject> getGroupDetailFooterData(@QueryMap Map<String, Object> map);
 
 
 }
