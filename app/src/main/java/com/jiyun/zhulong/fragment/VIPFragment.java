@@ -56,7 +56,7 @@ public class VIPFragment extends BaseMvpFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
         if (SharedPrefrenceUtils.getObject(getActivity(), ConstantKey.IS_SELECTDE) != null) {
             dataBean = SharedPrefrenceUtils.getObject(getActivity(), ConstantKey.IS_SELECTDE);
             specialty_id = dataBean.getSpecialty_id();
@@ -69,6 +69,7 @@ public class VIPFragment extends BaseMvpFragment {
 
     @Override
     protected void initData() {
+        mPresenter.allowLoading(getActivity());
         initBannerData();
         initBottomData();
     }

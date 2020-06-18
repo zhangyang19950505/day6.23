@@ -100,7 +100,7 @@ public class MainHomeFragment extends BaseMvpFragment implements NavController.O
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
         //获取手机存储的专业设置给textview
         if (SharedPrefrenceUtils.getObject(getActivity(), ConstantKey.IS_SELECTDE) != null) {
             dataBean = SharedPrefrenceUtils.getObject(getActivity(), ConstantKey.IS_SELECTDE);
@@ -118,7 +118,7 @@ public class MainHomeFragment extends BaseMvpFragment implements NavController.O
         //下方tab的点击监听
         bottomTab.setOnTabClickListener(this);
         //获取到中间显示的试图区
-        navController = Navigation.findNavController(view.findViewById(R.id.navigation_home_fragment));
+        navController = Navigation.findNavController(getView().findViewById(R.id.navigation_home_fragment));
         navController.addOnDestinationChangedListener(this);
     }
 

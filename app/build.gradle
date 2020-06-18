@@ -109,7 +109,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 //搜索框依赖  里面带返回图片
     api "com.miguelcatalan:materialsearchview:$searchview"
-
+    implementation "com.flyco.tablayout:FlycoTabLayout_Lib:$tablayout"
     //fragment navigation
     implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
     implementation 'androidx.navigation:navigation-ui:2.0.0-rc02'

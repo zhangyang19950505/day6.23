@@ -40,7 +40,7 @@ public class CourseFragment extends BaseMvpFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
         ArrayList<String> tabTitles = new ArrayList<>();
         tabTitles.add("训练营");
         tabTitles.add("精品课");

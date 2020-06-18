@@ -1,6 +1,12 @@
 package com.jiyun.frame.mvp;
 
+import android.app.Activity;
+
+import com.jiyun.frame.api.LoadTypeConfig;
+import com.jiyun.frame.design.LoadView;
+
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +16,8 @@ public class CommonPresenter<V extends ICommonView, M extends ICommonModel> impl
     public SoftReference<V> mView;
     public SoftReference<M> mModel;
     private List<Disposable> mDisposable;
+    private WeakReference<Activity> mActivityWeakReference;
+    private LoadView mInstance;
 
     //SoftReference   软引用对象，为了在内存不足时将对象回收
     public CommonPresenter(V mView, M mModel) {
@@ -18,10 +26,26 @@ public class CommonPresenter<V extends ICommonView, M extends ICommonModel> impl
         this.mModel = new SoftReference<>(mModel);
     }
 
+    public void allowLoading(Activity pActivity) {
+        mActivityWeakReference = new WeakReference<>(pActivity);
+    }
 
     //发起普通网络请求
     @Override
     public void getData(int apiConfig, int loadTypeConfig, Object... objects) {
+        if (mActivityWeakReference != null && mActivityWeakReference.get() != null && mActivityWeakReference.get() instanceof Activity) {
+            Activity activity = mActivityWeakReference.get();
+            if (!activity.isFinishing() && mInstance == null) {
+                mInstance = new LoadView(activity, null);
+            }
+            int load = -1;
+            if (objects != null && objects.length != 0 && objects[0] instanceof Integer) {
+                load = (int) objects[0];
+            }
+            if (load != LoadTypeConfig.LOADMORE && load != LoadTypeConfig.REFRESH && mInstance != null && !mInstance.isShowing()) {
+                mInstance.show();
+            }
+        }
         if (mModel != null && mModel.get() != null)
             mModel.get().getData(this, apiConfig, loadTypeConfig, objects);
     }
@@ -39,9 +63,10 @@ public class CommonPresenter<V extends ICommonView, M extends ICommonModel> impl
 
     //回调V层成功方法
     @Override
-    public void netSuccess(int apiConfig, int loadTypeConfig, Object[] object) {
+    public void netSuccess(int apiConfig, int loadTypeConfig, Object... object) {
         if (mView != null && mView.get() != null)
             mView.get().netSuccess(apiConfig, loadTypeConfig, object);
+        if (mInstance != null && mInstance.isShowing()) mInstance.dismiss();
     }
 
     //回调V层失败方法
@@ -49,6 +74,7 @@ public class CommonPresenter<V extends ICommonView, M extends ICommonModel> impl
     public void netFailed(int apiConfig, Throwable throwable) {
         if (mView != null && mView.get() != null)
             mView.get().netFailed(apiConfig, throwable);
+        if (mInstance != null && mInstance.isShowing()) mInstance.dismiss();
     }
 
 
@@ -72,6 +98,11 @@ public class CommonPresenter<V extends ICommonView, M extends ICommonModel> impl
         if (mModel != null) {
             mModel.clear();
             mModel = null;
+        }
+        if (mInstance != null && mInstance.isShowing()) mInstance.dismiss();
+        if (mActivityWeakReference != null) {
+            mActivityWeakReference.clear();
+            mActivityWeakReference = null;
         }
     }
 }

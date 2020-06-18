@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.jiyun.bean.Device;
 import com.jiyun.frame.context.FrameApplication;
 import com.jiyun.frame.mvp.CommonPresenter;
@@ -16,6 +19,7 @@ import com.jiyun.frame.utils.SystemUtils;
 import com.yiyatech.utils.NetworkUtils;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 作者：dell  张扬
@@ -25,28 +29,33 @@ import butterknife.ButterKnife;
 public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragment implements ICommonView {
     private M mModel;
     public CommonPresenter mPresenter;
-    private boolean isInit;
+    private Unbinder bind;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(setLayout(), container, false);
-        ButterKnife.bind(this, view);
-        if (mModel == null) mModel = setModel();
-        if (mModel != null)
-            mPresenter = new CommonPresenter(this, mModel);
-        initView(view);
-            initData();
-        initListener();
+        bind = ButterKnife.bind(this, view);
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+        mModel = setModel();
+        if (mModel != null) mPresenter = new CommonPresenter(this, mModel);
+        initData();
+        initListener();
+    }
+
 
     protected abstract int setLayout();
 
     protected abstract M setModel();
 
-    protected abstract void initView(View view);
+    protected abstract void initView();
 
     protected abstract void initData();
 
@@ -87,5 +96,6 @@ public abstract class BaseMvpFragment<M extends ICommonModel> extends BaseFragme
         super.onDestroy();
         if (mPresenter != null)
             mPresenter.clear();
+        if (bind != null) bind.unbind();
     }
 }

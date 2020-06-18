@@ -24,7 +24,7 @@ public class MineFragment extends BaseMvpFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
 
     }
 
