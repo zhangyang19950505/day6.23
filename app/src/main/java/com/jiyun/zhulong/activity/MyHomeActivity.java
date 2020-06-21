@@ -17,6 +17,7 @@ import com.jiyun.zhulong.base.BaseMvpActivity;
 
 public class MyHomeActivity extends BaseMvpActivity implements NavController.OnDestinationChangedListener {
 
+    public NavController mProjectController;
     public NavController navController;
     private long exitTime = 0;
 

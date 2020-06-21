@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jiyun.frame.api.LoadTypeConfig;
+import com.jiyun.zhulong.activity.HomeActivity;
+import com.jiyun.zhulong.activity.MyHomeActivity;
 import com.jiyun.zhulong.interfaces.DataListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -30,8 +32,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 public class BaseFragment extends Fragment {
 
 
-
-    public void setSmartListener(SmartRefreshLayout smartRefreshLayout, DataListener dataListener){
+    public void setSmartListener(SmartRefreshLayout smartRefreshLayout, DataListener dataListener) {
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -45,22 +46,26 @@ public class BaseFragment extends Fragment {
         });
     }
 
-    public void initRecyclerView(RecyclerView recyclerView){
-        if (recyclerView!=null) {
+    public void initRecyclerView(RecyclerView recyclerView) {
+        if (recyclerView != null) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         }
     }
 
-    public void showLog(String str){
-        Log.e("error：", str );
+    public void showLog(String str) {
+        Log.e("错误", str);
     }
 
-    public void showToast(String str){
+    public void showToast(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
-    public int setColor(@ColorRes int pColor){
-        return ContextCompat.getColor(getContext(),pColor);
+    public int setColor(@ColorRes int pColor) {
+        return ContextCompat.getColor(getContext(), pColor);
+    }
+
+    public MyHomeActivity getMyHomeActivity() {
+        return (MyHomeActivity) getActivity();
     }
 }

@@ -60,8 +60,8 @@ public class MainHomeFragment extends BaseMvpFragment implements NavController.O
     private final int HOME = 1, COURSE = 2, VIP = 3, TAB_DATA = 4, MINE = 5;
     private int selected;
     private SpecialtyBean.ResultBean.DataBean dataBean;
-    private String preFragment = "";
-    private String mCurrentFragment = "";
+    private String preFragment = "";//上个页面的fragment
+    private String mCurrentFragment = "";//现在显示的fragment
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +69,12 @@ public class MainHomeFragment extends BaseMvpFragment implements NavController.O
         NavHostFragment.findNavController(this).addOnDestinationChangedListener((controller, destination, arguments) -> {
             mCurrentFragment = destination.getLabel().toString();
             new Handler().postDelayed(() -> {
-                if (preFragment.equals("DataSquadDetailsFragment") && mCurrentFragment.equals("MainHomeFragment"))
-                    bottomTab.changeSelected(TAB_DATA);
+                if (mCurrentFragment.equals("MainHomeFragment")) {
+                    if (preFragment.equals("DataSquadDetailsFragment"))
+                        bottomTab.changeSelected(TAB_DATA);
+                    if (preFragment.equals("CourseDetailFragment"))
+                        bottomTab.changeSelected(COURSE);
+                }
                 preFragment = mCurrentFragment;
             }, 50);
         });

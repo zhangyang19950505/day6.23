@@ -7,8 +7,13 @@
         android:id="@+id/mainHomeFragment"
         android:name="com.jiyun.zhulong.fragment.MainHomeFragment"
         android:label="MainHomeFragment">
-        <action android:id="@+id/home_to_data_detail"
-            app:destination="@+id/dataSquadDetailsFragment"/>
+        <action
+            android:id="@+id/home_to_data_detail"
+            app:destination="@+id/dataSquadDetailsFragment" />
+        <action
+            android:id="@+id/home_to_course_detail"
+            app:destination="@+id/courseDetailFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/dataSquadDetailsFragment"
@@ -16,7 +21,15 @@
         android:label="DataSquadDetailsFragment">
         <action
             android:id="@+id/dataGroup_back_to_home"
-            app:popUpTo="@id/mainHomeFragment"/>
+            app:popUpTo="@id/mainHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDetailFragment"
+        android:name="com.jiyun.course.fragment.CourseDetailFragment"
+        android:label="CourseDetailFragment">
+        <action
+            android:id="@+id/course_detail_to_home"
+            app:popUpTo="@id/mainHomeFragment" />
     </fragment>
     <!--<fragment
         android:id="@+id/advertFragment"

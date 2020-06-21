@@ -176,7 +176,8 @@ public class SpecialtyBean implements Serializable {
         }
     }
 
-    public static class ExtraBean {
+    public static class ExtraBean implements Serializable {
+        private static final long serialVersionUID = 4378643742451288112L;
         /**
          * specialty_id : 0
          * fid : 47

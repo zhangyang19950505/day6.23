@@ -1,10 +1,13 @@
 package com.jiyun.zhulong.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.jiyun.bean.BaseInfo;
 import com.jiyun.bean.LoginInfo;
@@ -21,6 +24,7 @@ import com.jiyun.zhulong.model.AccountModel;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.yiyatech.utils.newAdd.FontUtil;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
 import com.zhulong.eduvideo.wxapi.WXEntryActivity;
 
@@ -30,6 +34,7 @@ import org.json.JSONObject;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,6 +48,8 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
     ImageView closeLogin;
     @BindView(R.id.register_press)
     TextView registerPress;
+    @BindView(R.id.cl)
+    ConstraintLayout cl;
     private Disposable mSubscribe;
     private String phoneNum;
     private long time = 59l;
@@ -63,6 +70,8 @@ public class LoginActivity extends BaseMvpActivity implements LoginView.LoginVie
 
     @Override
     protected void initView() {
+        //替换该activity中的字体
+//        FontUtil.replaceFont(cl, "font/PingFang Regular.ttf");
         intent = getIntent();
         mLoginView.setLoginViewCallBack(this);
     }

@@ -93,6 +93,7 @@ public class VIPFragment extends BaseMvpFragment {
                     List<VIPBannerBean.ResultBean.LiveBeanX.LiveBean> live = result.getLive().getLive();
                     adapter.initLive(live);
                     List<VIPBannerBean.ResultBean.LunbotuBean> lunbotu = result.getLunbotu();
+                    if (imgs.size() > 0) imgs.clear();
                     for (VIPBannerBean.ResultBean.LunbotuBean lunbotuBean : lunbotu) {
                         imgs.add(lunbotuBean.getImg());
                     }

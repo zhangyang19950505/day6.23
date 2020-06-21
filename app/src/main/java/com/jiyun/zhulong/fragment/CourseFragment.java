@@ -1,16 +1,14 @@
 package com.jiyun.zhulong.fragment;
 
 
-import android.view.View;
-
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.jiyun.course.adapter.CourseVpAdapter;
 import com.jiyun.course.fragment.ChildCourseFragment;
 import com.jiyun.frame.mvp.ICommonModel;
-import com.jiyun.tabdata.adapter.TabDataVpAdapter;
 import com.jiyun.zhulong.R;
 import com.jiyun.zhulong.base.BaseMvpFragment;
 
@@ -46,12 +44,13 @@ public class CourseFragment extends BaseMvpFragment {
         tabTitles.add("精品课");
         tabTitles.add("公开课");
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new ChildCourseFragment(3));
-        fragments.add(new ChildCourseFragment(1));
-        fragments.add(new ChildCourseFragment(2));
+        fragments.add(ChildCourseFragment.getInstance(3));
+        fragments.add(ChildCourseFragment.getInstance(1));
+        fragments.add(ChildCourseFragment.getInstance(2));
         tabCourse.setupWithViewPager(vpCourse);
-        CourseVpAdapter adapter = new CourseVpAdapter(getChildFragmentManager(),tabTitles,fragments);
-        vpCourse.setAdapter(adapter);
+        CourseVpAdapter myFragmentPagerAdapter = new CourseVpAdapter(getChildFragmentManager(), tabTitles, fragments);
+        vpCourse.setAdapter(myFragmentPagerAdapter);
+
     }
 
     @Override

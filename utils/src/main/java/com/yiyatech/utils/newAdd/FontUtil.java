@@ -10,6 +10,11 @@ import android.widget.TextView;
 import java.lang.reflect.Field;
 
 public class FontUtil {
+    /**
+     * 修改局部字体样式
+     * @param root 要修改 view或者viewGroup
+     * @param fontPath 要改成的字体样式的路劲
+     */
     public static void replaceFont(View root, String fontPath) {
         if (root == null || TextUtils.isEmpty(fontPath)) {
             return;
@@ -30,6 +35,11 @@ public class FontUtil {
         }
     }
 
+    /**
+     * 替换单个activity的字体
+     * @param context
+     * @param fontPath
+     */
     public static void replaceAllActivityFont(Activity context, String fontPath) {
         replaceFont(context.findViewById(android.R.id.content), fontPath);
     }

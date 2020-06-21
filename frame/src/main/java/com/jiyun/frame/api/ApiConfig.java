@@ -28,4 +28,5 @@ public class ApiConfig {
     public static final int BIND_ACCOUNT = 24;
     public static final int GROUP_DETAIL = 25;
     public static final int GROUP_DETAIL_FOOTER_DATA = 26;
+    public static final int COURSE_DETAIL_INFO = 27;
 }
