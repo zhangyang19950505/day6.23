@@ -1,13 +1,14 @@
 package com.yiyatech.utils.ext;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 /**
  * ImageUtils
@@ -28,7 +29,7 @@ import android.graphics.drawable.Drawable;
  * <li>{@link #scaleImageTo(Bitmap, int, int)}</li>
  * <li>{@link #scaleImage(Bitmap, float, float)}</li>
  * </ul>
- * 
+ *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2012-6-27
  */
 public class ImageUtils {
@@ -39,7 +40,7 @@ public class ImageUtils {
 
     /**
      * convert Bitmap to byte array
-     * 
+     *
      * @param b
      * @return
      */
@@ -55,7 +56,7 @@ public class ImageUtils {
 
     /**
      * convert byte array to Bitmap
-     * 
+     *
      * @param b
      * @return
      */
@@ -65,17 +66,17 @@ public class ImageUtils {
 
     /**
      * convert Drawable to Bitmap
-     * 
+     *
      * @param d
      * @return
      */
     public static Bitmap drawableToBitmap(Drawable d) {
-        return d == null ? null : ((BitmapDrawable)d).getBitmap();
+        return d == null ? null : ((BitmapDrawable) d).getBitmap();
     }
 
     /**
      * convert Bitmap to Drawable
-     * 
+     *
      * @param b
      * @return
      */
@@ -85,7 +86,7 @@ public class ImageUtils {
 
     /**
      * convert Drawable to byte array
-     * 
+     *
      * @param d
      * @return
      */
@@ -95,7 +96,7 @@ public class ImageUtils {
 
     /**
      * convert byte array to Drawable
-     * 
+     *
      * @param b
      * @return
      */
@@ -105,7 +106,7 @@ public class ImageUtils {
 
     /**
      * get input stream from network by imageurl, you need to close inputStream yourself
-     * 
+     *
      * @param imageUrl
      * @param readTimeOutMillis
      * @return
@@ -117,7 +118,7 @@ public class ImageUtils {
 
     /**
      * get input stream from network by imageurl, you need to close inputStream yourself
-     * 
+     *
      * @param imageUrl
      * @param readTimeOutMillis read time out, if less than 0, not set, in mills
      * @param requestProperties http request properties
@@ -148,7 +149,7 @@ public class ImageUtils {
 
     /**
      * get drawable by imageUrl
-     * 
+     *
      * @param imageUrl
      * @param readTimeOutMillis
      * @return
@@ -160,7 +161,7 @@ public class ImageUtils {
 
     /**
      * get drawable by imageUrl
-     * 
+     *
      * @param imageUrl
      * @param readTimeOutMillis read time out, if less than 0, not set, in mills
      * @param requestProperties http request properties
@@ -176,7 +177,7 @@ public class ImageUtils {
 
     /**
      * get Bitmap by imageUrl
-     * 
+     *
      * @param imageUrl
      * @param readTimeOut
      * @return
@@ -188,7 +189,7 @@ public class ImageUtils {
 
     /**
      * get Bitmap by imageUrl
-     * 
+     *
      * @param imageUrl
      * @param requestProperties http request properties
      * @return
@@ -202,7 +203,7 @@ public class ImageUtils {
 
     /**
      * scale image
-     * 
+     *
      * @param org
      * @param newWidth
      * @param newHeight
@@ -214,9 +215,9 @@ public class ImageUtils {
 
     /**
      * scale image
-     * 
+     *
      * @param org
-     * @param scaleWidth sacle of width
+     * @param scaleWidth  sacle of width
      * @param scaleHeight scale of height
      * @return
      */

@@ -2,6 +2,7 @@ package com.jiyun.frame.api;
 
 import com.google.gson.JsonObject;
 import com.jiyun.bean.BaseInfo;
+import com.jiyun.bean.CourseAppraiseInfo;
 import com.jiyun.bean.CourseDetailInfo;
 import com.jiyun.bean.CourseDrillBean;
 import com.jiyun.bean.DataSquadBean;
@@ -59,6 +60,10 @@ public interface ApiService {
     @POST("getNewLessonDetail")
     @FormUrlEncoded
     Observable<BaseInfo<CourseDetailInfo>> getCourseDetail(@FieldMap Map<String, Object> map);
+
+    //课程详情评论
+    @GET("lesson/getcommentlist")
+    Observable<CourseAppraiseInfo> getCourseAppraiseInfo(@QueryMap Map<String, Object> map);
 
     //资料，小组
     @GET("group/getGroupList")
